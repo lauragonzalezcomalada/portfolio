@@ -1,6 +1,7 @@
 <script setup>
 const projects = [
   {
+    orientation: 'right',
     title: 'AI-powered Contract Processing Platform',
     shortDescription:
       'An AI-assisted workflow that extracts structured information from real estate contracts, presents it for human validation and synchronises confirmed data with CRM systems.',
@@ -48,6 +49,7 @@ const projects = [
     ],
   },
   {
+    orientation: 'left',
     title: 'Dynamic Form Builder',
     shortDescription:
       'A configurable form platform that enables non-technical users to create dynamic forms with reusable components, conditional logic, and automatic CRM synchronisation.',
@@ -96,6 +98,7 @@ const projects = [
     ],
   },
   {
+    orientation: 'right',
     title: 'Local Events & Community Platform',
     shortDescription:
       'A web and mobile platform for publishing local events, managing ticket sales, and discovering nearby activities based on location, interests, and availability.',
@@ -145,6 +148,7 @@ const projects = [
     ],
   },
   {
+    orientation: 'left',
     title: 'Forensic Report Automation Platform',
     shortDescription:
       'A configurable document generation platform that transforms structured form submissions into professional Word reports for forensic experts and expert witnesses.',
@@ -183,10 +187,206 @@ const projects = [
     keys: ['Document Generation', 'Forensic Reports', 'DOCX Export', 'Nuxt.js', 'Tailwind CSS'],
   },
 ]
+
+const container = ref(null)
+const drawingEnabled = ref(false)
+const animationFinished = ref(false)
+let sketch
+let disposed = false
+
+const mouseX = ref(0)
+const mouseY = ref(0)
+
+let xCenter
+let yCenter
+
+const wheelTarget = computed(() => ({
+  // Keep the wheel opposite the modal.
+  x: detailsOpen.value ? (pushedLeft.value ? 0.75 : 0.25) : 0.5,
+  y: 0.5,
+}))
+
+const txt = 'PROJECTS'
+const txt2 = 'AI-powered Contract Processing Platform'
+
+onMounted(async () => {
+  const { default: P5 } = await import('p5')
+
+  if (disposed) return
+  let size = 300
+  const minSize = 35
+  const shrinkSpeed = 80
+
+  addEventListener('mousemove', (event) => {
+    mouseX.value = event.clientX
+    mouseY.value = event.clientY
+  })
+
+  sketch = new P5((p) => {
+    p.setup = () => {
+      p.createCanvas(container.value.clientWidth, container.value.clientHeight)
+      xCenter = p.width / 2
+      yCenter = p.height / 2
+      p.frameRate(60)
+      p.textAlign(p.LEFT, p.CENTER)
+    }
+    p.draw = () => {
+      p.background(255, 255, 255)
+      size = Math.max(minSize, size - (shrinkSpeed * p.deltaTime) / 1000)
+      p.textSize(size)
+
+      let amount = Math.min(p.frameCount / 5, 70)
+      let step = 360 / amount
+      const opacities = [1, 0.2, 0.8, 0.2]
+
+      p.push()
+
+      const targetX = wheelTarget.value.x * p.width
+      const targetY = wheelTarget.value.y * p.height
+      // Smooth movement, independent of frame rate.
+      const easing = 1 - Math.exp((-5 * p.deltaTime) / 2000)
+
+      xCenter += (targetX - xCenter) * easing
+      yCenter += (targetY - yCenter) * easing
+
+      p.push()
+      p.translate(xCenter, yCenter)
+
+      for (let i = 0; i < amount; i++) {
+        const alpha = opacities[i % 4] * 255
+
+        let rotation = step * i
+        p.push()
+        p.rotate(p.radians(rotation + p.frameCount / 100))
+        p.fill(255, 51, 65, alpha)
+        p.stroke(255, 51, 65, alpha)
+        p.textFont('Bricolage Grotesque')
+        p.text(txt, 80, 0)
+        p.pop()
+      }
+      p.pop()
+      p.pop()
+      animationFinished.value = size <= minSize
+    }
+  }, container.value)
+})
+
+onBeforeUnmount(() => {
+  disposed = true
+  sketch?.remove()
+})
+const detailsOpen = ref(false)
+const pushedLeft = ref(false)
+
+const openProjectDetails = (project) => {
+  console.log('project: ', project)
+  detailsOpen.value = !detailsOpen.value
+  if (detailsOpen.value) {
+    if (project.orientation === 'left') {
+      pushedLeft.value = true
+    } else {
+      pushedLeft.value = false
+    }
+  } else {
+    pushedLeft.value = false
+  }
+}
+const onModalOpenChange = (open) => {
+  // Close modal event
+  if (!open) {
+    pushedLeft.value = false
+    detailsOpen.value = false
+  }
+}
 </script>
 
 <template>
-  <div
+  <div class="relative w-full h-full flex items-center justify-center">
+    <div
+      ref="container"
+      class="absolute inset-0 w-full h-full shrink-cursor"
+    />
+
+    <div
+      v-if="animationFinished"
+      class="absolute z-20 grid px-10"
+      :class="
+        detailsOpen
+          ? pushedLeft
+            ? 'grid-cols-1 gap-x-0 gap-y-4 right-5'
+            : 'grid-cols-1 gap-x-0 gap-y-4 left-5'
+          : 'grid-cols-1 md:grid-cols-2 gap-x-[50dvw] gap-y-[2dvh]'
+      "
+    >
+      <div
+        v-for="project in projects"
+        :key="project.title"
+        class="project-card shrink-cursor relative isolate overflow-hidden flex flex-col gap-2 max-w-xs bg-white text-primary p-4 rounded-2xl shadow-lg shadow-primary-200 hover:scale-102 transition-all duration-500 hover:shadow-lg"
+      >
+        <h2 class="text-xl font-bold">{{ project.title }}</h2>
+        <p
+          v-if="!detailsOpen"
+          class="text-xs"
+        >
+          {{ project.shortDescription }}
+        </p>
+        <div
+          v-if="!detailsOpen"
+          class="flex flex-wrap gap-2"
+        >
+          <div
+            v-for="key in project.keys"
+            :key="key"
+          >
+            <UBadge
+              :label="key"
+              variant="outline"
+              class="ring-primary/70 text-primary/70"
+            />
+          </div>
+        </div>
+        <UModal
+          :ui="{
+            content: [
+              'top-[9dvh] translate-x-0 translate-y-0',
+              'w-[50dvw] max-w-none ring-0 border-0 shadow-2xl shadow-primary-500',
+              'transition-[left] duration-1000 ease-in-out',
+              pushedLeft ? 'left-[5dvw]' : 'left-[45dvw]',
+            ].join(' '),
+            overlay: 'bg-primary-100/20 backdrop-blur-2xs',
+          }"
+          @update:open="onModalOpenChange"
+        >
+          <UButton
+            trailing-icon="i-heroicons-chevron-right"
+            variant="link"
+            size="sm"
+            class="self-end mt-auto text-primary/70 hover:text-primary"
+            @click="openProjectDetails(project)"
+            >Project Details
+          </UButton>
+          <template #content>
+            <div
+              class="flex flex-col gap-4 p-8 shrink-cursor scrollable overflow-y-auto bg-primary text-white max-h-[85dvh] min-w-[50dvw] no-border"
+            >
+              <h2 class="text-3xl font-bold">{{ project.description.title }}</h2>
+              <div
+                v-for="section in project.description.sections"
+                :key="section.label"
+              >
+                <h3 class="text-lg font-semibold">{{ section.label }}</h3>
+                <div
+                  class="text-sm"
+                  v-html="section.description"
+                ></div>
+              </div>
+            </div>
+          </template>
+        </UModal>
+      </div>
+    </div>
+  </div>
+  <!--  <div
     id="projects"
     class="min-h-[calc(100dvh-4rem)] relative flex flex-col items-center justify-center m-10"
   >
@@ -249,7 +449,7 @@ const projects = [
         class="shrink-cursor hover:font-semibold transition-all duration-300 ease-in-out"
       />
     </div>
-  </div>
+  </div> -->
 </template>
 
 <style scoped>
@@ -262,11 +462,20 @@ const projects = [
   border-radius: inherit;
   background: var(--cursor-hover-color, #f59e0b);
   opacity: 0;
-  /*transition: opacity 500ms ease-in;*/
 }
 
 .project-card:hover::before {
   opacity: 1;
+}
+
+.project-card:hover,
+.project-card:hover * {
+  color: #fefefe;
+}
+
+.project-card,
+.project-card * {
+  transition: color 200ms ease;
 }
 
 .project-card::selection,
@@ -275,238 +484,7 @@ const projects = [
   color: var(--ui-primary);
 }
 
-.orbit-plane {
-  position: absolute;
-  inset: 0;
-  overflow: visible;
-
-  transform: rotate(var(--axis-angle));
-  transition: transform 100ms ease-out;
-}
-
-.orbit-item {
-  position: absolute;
-  inset: 0;
-  width: max-content;
-  height: max-content;
-
-  /* Almost circular, but with a visible orientation */
-  offset-path: ellipse(var(--orbit-radius) calc(var(--orbit-radius) * 0.9) at 50% 50%);
-
-  offset-anchor: center;
-  offset-rotate: 0deg;
-
-  animation: orbit 12s linear infinite;
-}
-
-.orbit-text {
-  display: block;
-  white-space: nowrap;
-
-  /* Keep labels horizontal when the orbit axis rotates */
-  transform: rotate(calc(-1 * var(--axis-angle)));
-  transition: transform 100ms ease-out;
-}
-
-@keyframes orbit {
-  from {
-    offset-distance: 0%;
-  }
-
-  to {
-    offset-distance: 100%;
-  }
-}
-
-.letter {
-  display: inline-block;
-  font-size: 2.3em;
-  transition:
-    color 300ms ease 500ms,
-    transform 300ms ease 1000ms;
-}
-
-.letter:hover {
-  animation: bounce 700ms ease;
-  transition-delay: 0ms;
-}
-
-.cursor {
-  animation: blink 700ms step-end infinite;
-}
-
-@keyframes blink {
-  50% {
-    opacity: 0;
-  }
-}
-
-@keyframes bounce {
-  0%,
-  100% {
-    transform: translateX(0);
-  }
-
-  35% {
-    transform: translateX(-10px);
-  }
-
-  55% {
-    transform: translateX(6px);
-  }
-
-  70% {
-    transform: translateX(-4px);
-  }
-
-  85% {
-    transform: translateX(0);
-  }
-}
-
-.fall-in {
-  animation: fall-in 2000ms ease-out both;
-}
-
-@keyframes fall-in {
-  0% {
-    opacity: 0;
-    transform: translateY(-100vh);
-  }
-
-  10% {
-    opacity: 1;
-    transform: translateY(12px);
-  }
-
-  30% {
-    opacity: 1;
-    transform: translateY(-10px);
-  }
-
-  70% {
-    opacity: 1;
-    transform: translateY(5px);
-  }
-
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.right-entrance {
-  animation: right-entrance 2000ms ease-out both;
-}
-
-@keyframes right-entrance {
-  0% {
-    opacity: 0;
-    transform: translateX(100vw);
-  }
-
-  50% {
-    opacity: 1;
-    transform: translateX(-10px);
-  }
-
-  70% {
-    opacity: 1;
-    transform: translateX(10px);
-  }
-
-  100% {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-.bottom-entrance {
-  animation: bottom-entrance 2000ms ease-out both;
-}
-
-@keyframes bottom-entrance {
-  0% {
-    opacity: 0;
-    transform: translateY(100vh);
-  }
-
-  50% {
-    opacity: 1;
-    transform: translateY(-10px);
-  }
-
-  70% {
-    opacity: 1;
-    transform: translateY(5px);
-  }
-
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.scroll-arrow {
-  position: absolute;
-  top: 2rem;
-  right: 0.2rem;
-  bottom: 2rem;
-  width: 2rem;
-  pointer-events: none;
-  z-index: 50;
-}
-
-.scroll-arrow__line {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 2px;
-  background: var(--color-red-500);
-  transform: translateX(-50%);
-  transform-origin: top;
-  animation: extend-line 3.5s ease-out forwards;
-}
-
-/* Arrowhead */
-.scroll-arrow__line::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  width: 0.5rem;
-  height: 0.5rem;
-  border-right: 1.5px solid var(--color-red-500);
-  border-bottom: 1.5px solid var(--color-red-500);
-  transform: translate(-50%, 0%) rotate(45deg);
-}
-
-@keyframes extend-line {
-  from {
-    transform: translateX(-50%) scaleY(0);
-  }
-
-  to {
-    transform: translateX(-50%) scaleY(1);
-  }
-}
-
-.projects-title {
-  position: absolute;
-  top: 100px;
-  left: 100px;
-
-  /* Visually starts at 10px, 10px */
-  opacity: 0;
-  transform: translate(-90px, -90px);
-
-  transition:
-    opacity 700ms ease-out,
-    transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.projects-title.is-visible {
-  opacity: 1;
-  transform: translate(0, 0);
+.project-card {
+  animation: fade-in 1500ms ease-out both;
 }
 </style>

@@ -1,4 +1,5 @@
 <script setup>
+const route = useRoute()
 const scrollLine = ref(null)
 const lineHeight = ref(0)
 const footerEl = ref(null)
@@ -37,7 +38,7 @@ onBeforeUnmount(() => {
 <template>
   <div class="relative screen-layout">
     <header
-      class="fixed inset-x-0 top-0 h-16 z-50 px-4 flex items-center justify-center gap-12 bg-white screen-header"
+      class="fixed inset-x-0 top-0 h-16 z-50 px-4 flex items-center justify-center gap-12 screen-header bg-white"
       @click="navigateTo('/')"
     >
       <h1
@@ -59,6 +60,7 @@ onBeforeUnmount(() => {
     <main class="pt-16 screen-content">
       <slot />
       <div
+        v-if="route.path === '/'"
         class="scroll-arrow"
         aria-hidden="true"
       >
@@ -103,7 +105,7 @@ onBeforeUnmount(() => {
         class="text-white font-bold text-lg"
       />
     </footer>-->
-    <DrawingOverlay />
+    <DrawingOverlay v-if="route.path === '/'" />
   </div>
 </template>
 
@@ -147,7 +149,7 @@ onBeforeUnmount(() => {
 .scroll-arrow__curve,
 .scroll-arrow__head {
   stroke: currentColor;
-  stroke-width: 2;
+  stroke-width: 3;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
