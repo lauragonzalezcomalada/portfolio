@@ -1,9 +1,12 @@
 <template>
   <UApp>
     <AppCursor />
-    <NuxtPage />
+    <NuxtLayout>
+      <NuxtPage />
+    </NuxtLayout>
   </UApp>
 </template>
+<!---->
 
 <!-- <template>
   <div>

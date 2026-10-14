@@ -9,4 +9,5 @@ export default defineNuxtConfig({
     preference: 'light',
     fallback: 'light',
   },
+  devServer: { port: 3005 },
 })
