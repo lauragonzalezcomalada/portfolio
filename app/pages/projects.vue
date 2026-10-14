@@ -312,9 +312,9 @@ const onModalOpenChange = (open) => {
       class="absolute z-20 grid px-10"
       :class="
         detailsOpen
-          ? pushedLeft
+          ? /*pushedLeft
             ? 'grid-cols-1 gap-x-0 gap-y-4 right-5'
-            : 'grid-cols-1 gap-x-0 gap-y-4 left-5'
+            : 'grid-cols-1 gap-x-0 gap-y-4 left-5'*/ 'hidden'
           : 'grid-cols-1 md:grid-cols-2 gap-x-[50dvw] gap-y-[2dvh]'
       "
     >
