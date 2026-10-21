@@ -3,10 +3,185 @@
     "projects": "Projectes",
     "about": "Sobre mi",
     "contact": "Contacte",
-    "playground": "Sala de jocs"
+    "playground": "Jocs"
   },
   "home": {
-    "greeting_line1": "Hola, soc la lauragonzalezcomalada",
-    "greeting_line2": "desenvolupadora de software amb bon ull pel disseny"
+    "greeting_line1": "Hola, sóc la lauragonzalezcomalada",
+    "greeting_line2": "enginyera de software amb bon ull pel disseny"
+  },
+  "projects": {
+    "spinningWeel": "PROJECTES",
+    "projects": [
+      {
+        "orientation": "right",
+        "title": "Plataforma de processament de contractes amb IA",
+        "shortDescription": "Un flux de treball assistit per IA que extreu informació estructurada de contractes immobiliaris, la presenta per a la validació humana i sincronitza les dades confirmades amb sistemes CRM.",
+        "description": {
+          "title": "Plataforma de processament de contractes amb IA",
+          "sections": [
+            {
+              "label": "El repte",
+              "description": "Les transaccions immobiliàries impliquen contractes de compravenda, acords d'intermediació i annexos complementaris, amb informació essencial repartida entre diversos documents. Introduir manualment les dades de l'immoble, les condicions econòmiques i els terminis en un CRM requereix temps i pot donar lloc a errors."
+            },
+            {
+              "label": "La meva contribució",
+              "description": "Vaig desenvolupar el flux de càrrega de documents i extracció de dades, vaig integrar Claude per al processament assistit per IA i vaig crear la interfície per revisar i editar la informació extreta. També vaig implementar la persistència de dades amb Supabase i la correspondència entre els camps de cada tipus de contracte i els del CRM per sincronitzar-ne les dades."
+            },
+            {
+              "label": "Com funciona",
+              "description": "Els usuaris carreguen els documents associats a una transacció. La plataforma els analitza conjuntament i n'extreu informació com ara les dades de l'immoble, el preu de compravenda, les dates clau, les dades de contacte i els honoraris d'intermediació. En un segon pas, les dades extretes es mostren en una pantalla on l'agent pot comprovar-ne l'exactitud i editar els valors proposats. Un cop revisades i aprovades, es poden sincronitzar amb el CRM."
+            },
+            {
+              "label": "Principals reptes tècnics",
+              "description": "<ul><li><span class=\"font-semibold\">Processament de múltiples documents:</span> combinar informació de diversos PDF relacionats respectant les regles que determinen quin document pot aportar el valor de cada camp.</li>\n<li><span class=\"font-semibold\">Gestió de la incertesa:</span> indicar explícitament els valors no trobats i proporcionar un nivell de confiança per a cada camp.</li>\n<li><span class=\"font-semibold\">Diferenciació dels conceptes econòmics:</span> distingir els honoraris de l'agent del comprador, els honoraris assumits pel venedor i les concessions econòmiques del venedor.</li>\n<li><span class=\"font-semibold\">Correspondència de dades amb el CRM:</span> adaptar un format d'extracció homogeni als camps personalitzats corresponents a cada tipus de contracte.</li>\n</ul>"
+            },
+            {
+              "label": "Valor del producte",
+              "description": "La plataforma integra el processament de documents, la revisió humana i l'actualització del CRM en un únic flux de treball. Això redueix la introducció repetitiva de dades i manté els usuaris al control de la informació que s'envia."
+            },
+            {
+              "label": "Tecnologies",
+              "description": "Nuxt.js · Node.js · Supabase · Tailwind CSS · API de Claude · API de CRM"
+            }
+          ]
+        },
+        "keys": [
+          "Integració d'IA",
+          "Processament de documents",
+          "Integració amb CRM",
+          "Supabase",
+          "Nuxt.js",
+          "Node.js",
+          "Tailwind CSS"
+        ]
+      },
+      {
+        "orientation": "left",
+        "title": "Creador de formularis dinàmics",
+        "shortDescription": "Una plataforma configurable que permet a usuaris sense coneixements tècnics crear formularis dinàmics amb components reutilitzables, lògica condicional i sincronització automàtica amb el CRM.",
+        "description": {
+          "title": "Creador de formularis dinàmics",
+          "sections": [
+            {
+              "label": "El repte",
+              "description": "Cada flux de treball requereix informació diferent, però crear i mantenir un formulari específic per a cada cas d'ús comporta tasques de desenvolupament repetitives. Els equips necessiten una manera flexible de configurar formularis sense dependre d'un desenvolupador per a cada canvi."
+            },
+            {
+              "label": "La meva contribució",
+              "description": "Vaig desenvolupar un sistema de formularis configurable amb components d'entrada reutilitzables, visibilitat condicional dels camps i validació. Vaig connectar les dades enviades amb els fluxos de treball del CRM i vaig utilitzar Supabase per desar les configuracions dels formularis i les respostes rebudes."
+            },
+            {
+              "label": "Com funciona",
+              "description": "Els usuaris configuren els formularis amb components reutilitzables, defineixen les condicions que determinen quins camps es mostren i especifiquen a quin camp del CRM s'ha d'assignar cada dada enviada. A mesura que una persona emplena el formulari, la interfície s'adapta a les seves respostes i valida els camps pertinents. La informació enviada s'assigna als camps corresponents del CRM i se sincronitza automàticament."
+            },
+            {
+              "label": "Principals reptes tècnics",
+              "description": "<ul>\n<li><span class=\"font-semibold\">Components de camp reutilitzables:</span> admetre diferents tipus d'entrada mitjançant una configuració i una interfície de components coherents.</li>\n<li><span class=\"font-semibold\">Lògica condicional:</span> mantenir la visibilitat i la validació dels camps alineades a mesura que canvien les respostes.</li>\n<li><span class=\"font-semibold\">Estat reactiu del formulari:</span> coordinar les actualitzacions entre components imbricats, camps dependents i regles de validació.</li>\n<li><span class=\"font-semibold\">Integració amb el CRM:</span> adaptar les dades enviades des dels formularis configurables a l'estructura de camps que requereix el CRM.</li>\n</ul>"
+            },
+            {
+              "label": "Valor del producte",
+              "description": "La plataforma dona als equips més control sobre els seus fluxos de recollida de dades, redueix les tasques repetitives de desenvolupament de formularis i elimina la necessitat de traslladar manualment les respostes al CRM. Els components reutilitzables ofereixen una experiència coherent entre els diferents formularis."
+            },
+            {
+              "label": "Tecnologies",
+              "description": "Nuxt.js · Node.js · Supabase · Tailwind CSS · API de CRM"
+            }
+          ]
+        },
+        "keys": [
+          "Creació de formularis",
+          "Formularis dinàmics",
+          "Integració amb CRM",
+          "Supabase",
+          "Nuxt.js",
+          "Node.js",
+          "Tailwind CSS"
+        ]
+      },
+      {
+        "orientation": "right",
+        "title": "Plataforma d'esdeveniments locals i comunitat",
+        "shortDescription": "Una plataforma web i mòbil per publicar esdeveniments locals, gestionar la venda d'entrades i descobrir activitats properes segons la ubicació, els interessos i la disponibilitat.",
+        "description": {
+          "title": "Plataforma d'esdeveniments locals i comunitat",
+          "sections": [
+            {
+              "label": "El repte",
+              "description": "Descobrir i organitzar esdeveniments locals sovint implica utilitzar eines separades per a la promoció, la venda d'entrades i els pagaments. L'objectiu era unificar aquestes tasques per ajudar els organitzadors a gestionar els seus esdeveniments i facilitar que les persones trobessin activitats adequades als seus interessos i horaris."
+            },
+            {
+              "label": "La meva contribució",
+              "description": "Vaig desenvolupar la plataforma web i una aplicació mòbil complementària amb Flutter, implementant la publicació d'esdeveniments, la gestió d'entrades, el control d'assistència i la descoberta d'activitats segons la ubicació. També vaig integrar funcionalitats bancàries per gestionar els pagaments. La implementació web anterior utilitzava Python i Django al backend, amb Angular i Vue al frontend; actualment en planifico la migració a Nuxt.js, Express, Node.js i Supabase."
+            },
+            {
+              "label": "Com funciona",
+              "description": "Els organitzadors publiquen esdeveniments i projectes locals, gestionen la venda d'entrades i controlen l'assistència. Els usuaris exploren activitats mitjançant un mapa interactiu i filtren els resultats per ubicació, interessos i dates. La plataforma web i l'aplicació mòbil desenvolupada amb Flutter permeten accedir a aquestes funcionalitats, amb una integració bancària que facilita els pagaments."
+            },
+            {
+              "label": "Principals reptes tècnics",
+              "description": "<ul>\n<li><span class=\"font-semibold\">Descoberta segons la ubicació:</span> combinar la cerca en un mapa interactiu amb filtres per interessos i dates.</li>\n<li><span class=\"font-semibold\">Gestió d'entrades:</span> coordinar la venda d'entrades i els registres d'assistència de cada esdeveniment.</li>\n<li><span class=\"font-semibold\">Integració bancària:</span> connectar els fluxos de pagament amb les dades dels esdeveniments i les entrades.</li>\n<li><span class=\"font-semibold\">Experiències web i mòbil:</span> adaptar els fluxos de descoberta i gestió d'esdeveniments a les interfícies web i mòbil.</li>\n</ul>"
+            },
+            {
+              "label": "Valor del producte",
+              "description": "La plataforma connecta les comunitats locals amb activitats del seu interès i ofereix als organitzadors un espai centralitzat per publicar esdeveniments, gestionar entrades i fer el seguiment de la participació. L'accés web i mòbil facilita tant la planificació anticipada com la descoberta d'activitats sobre la marxa."
+            },
+            {
+              "label": "Tecnologies",
+              "description": "Implementació actual: Python · Django · Angular · Vue.js · Flutter · Integració bancària<br>\nMigració web prevista: Nuxt.js · Express · Node.js · Supabase · Tailwind CSS"
+            }
+          ]
+        },
+        "keys": [
+          "Gestió d'esdeveniments",
+          "Venda d'entrades",
+          "Descoberta mitjançant mapes",
+          "Integració bancària",
+          "Flutter",
+          "Django",
+          "Vue.js"
+        ]
+      },
+      {
+        "orientation": "left",
+        "title": "Plataforma d'automatització d'informes pericials",
+        "shortDescription": "Una plataforma configurable de generació de documents que transforma les dades de formularis estructurats en informes professionals en format Word per a especialistes forenses i pèrits judicials.",
+        "description": {
+          "title": "Plataforma d'automatització d'informes pericials",
+          "sections": [
+            {
+              "label": "El repte",
+              "description": "La preparació d'informes pericials implica organitzar la informació de cada cas, redactar apartats recurrents i mantenir un format coherent dels documents. Repetir aquestes tasques manualment requereix temps i pot generar omissions o incoherències entre informes."
+            },
+            {
+              "label": "La meva contribució",
+              "description": "Vaig desenvolupar un flux de treball configurable que connecta les dades introduïdes en formularis estructurats amb la generació d'informes, incloent-hi documents Word editables (.docx). Vaig crear la interfície dels formularis i la lògica de generació de documents amb Nuxt.js."
+            },
+            {
+              "label": "Com funciona",
+              "description": "Els usuaris introdueixen la informació del cas mitjançant formularis estructurats. La plataforma utilitza les dades enviades i l'estructura configurada de l'informe per generar un document amb el format corresponent. Els informes es poden exportar com a documents Word editables per revisar-los i ajustar-ne el contingut."
+            },
+            {
+              "label": "Principals reptes tècnics",
+              "description": "<ul>\n<li><span class=\"font-semibold\">Estructures d'informe configurables:</span> adaptar-se a diferents requisits de redacció d'informes reutilitzant apartats comuns i la lògica de generació.</li>\n<li><span class=\"font-semibold\">Correspondència entre dades i documents:</span> incorporar la informació enviada als apartats corresponents de l'informe i gestionar els valors opcionals o absents.</li>\n</ul>"
+            },
+            {
+              "label": "Valor del producte",
+              "description": "La plataforma redueix les tasques repetitives de redacció i format, ajudant els professionals a elaborar informes amb més coherència. L'exportació a Word ofereix als experts la flexibilitat de revisar i ajustar el contingut abans de donar-lo per definitiu."
+            },
+            {
+              "label": "Tecnologies",
+              "description": "Nuxt.js · Tailwind CSS · Generació de documents DOCX"
+            }
+          ]
+        },
+        "keys": [
+          "Generació de documents",
+          "Informes pericials",
+          "Exportació a DOCX",
+          "Nuxt.js",
+          "Tailwind CSS"
+        ]
+      }
+    ]
   }
 }

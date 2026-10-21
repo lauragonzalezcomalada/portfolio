@@ -1,5 +1,5 @@
 <script setup>
-const { t, setLocale } = useI18n()
+const { t, locale, setLocale } = useI18n()
 const localePath = useLocalePath()
 
 const route = useRoute()
@@ -8,6 +8,10 @@ const scrollLine = ref(null)
 const lineHeight = ref(0)
 const footerEl = ref(null)
 
+const selectedLocale = ref(locale.value || 'en')
+watch(selectedLocale, (newLocale) => {
+  setLocale(newLocale)
+})
 const scrollPosition = useState('depth-scroll-position', () => 0)
 
 const depthProgress = computed(() => {
@@ -42,27 +46,53 @@ onBeforeUnmount(() => {
 <template>
   <div class="relative screen-layout">
     <header
-      v-if="!isHome"
-      class="fixed inset-x-0 top-0 h-16 z-50 px-4 flex items-center justify-center gap-12 screen-header bg-white"
+      class="fixed inset-x-0 top-0 h-16 z-50 px-4 flex items-center justify-center screen-header"
       @click="navigateTo(localePath('/'))"
     >
-      <h1
-        variant="link"
-        class="left-entrance font-semibold text-black/20 hover:text-red-500 shrink-cursor"
-        @click="navigateTo(localePath('/projects'))"
+      <div
+        v-if="!isHome"
+        class="flex ml-auto gap-4"
       >
-        {{ t('nav.projects') }}
-      </h1>
-      <h1
-        variant="link"
-        class="bottom-entrance font-semibold text-black/20 hover:text-red-500 shrink-cursor"
-        @click="navigateTo(localePath('/aboutme'))"
+        <h1
+          variant="link"
+          class="left-entrance font-semibold text-black/20 hover:text-red-500 shrink-cursor"
+          @click="navigateTo(localePath('/projects'))"
+        >
+          {{ t('nav.projects') }}
+        </h1>
+        <h1
+          variant="link"
+          class="bottom-entrance font-semibold text-black/20 hover:text-red-500 shrink-cursor"
+          @click="navigateTo(localePath('/aboutme'))"
+        >
+          {{ t('nav.about') }}
+        </h1>
+        <h1 class="right-entrance font-semibold text-black/20 hover:text-red-500">
+          {{ t('nav.contact') }}
+        </h1>
+      </div>
+
+      <USelect
+        :items="[
+          { label: 'EN', value: 'en' },
+          { label: 'ES', value: 'es' },
+          { label: 'CAT', value: 'cat' },
+        ]"
+        v-model="selectedLocale"
+        variant="soft"
+        color="red"
+        class="text-sm text-gray-500 shrink-cursor ml-auto"
+        :content="{
+          position: 'item-aligned',
+        }"
+        :ui="{
+          item: 'text-primary font-semibold shrink-cursor',
+          base: 'bg-primary/10 text-primary hover:bg-primary/20',
+          value: 'text-primary font-semibold shrink-cursor',
+          trailingIcon: 'shrink-cursor text-primary',
+        }"
       >
-        {{ t('nav.about') }}
-      </h1>
-      <h1 class="right-entrance font-semibold text-black/20 hover:text-red-500">
-        {{ t('nav.contact') }}
-      </h1>
+      </USelect>
     </header>
     <main
       class="screen-content"

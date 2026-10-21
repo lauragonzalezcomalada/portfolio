@@ -1,5 +1,5 @@
 <script setup>
-const { t, setLocale } = useI18n()
+const { t } = useI18n()
 
 const props = defineProps({
   opacities: {
@@ -16,7 +16,7 @@ const props = defineProps({
   },
   maxFontSize: {
     type: Number,
-    required: true,
+    required: false,
     default: 300,
   },
   minFontSize: {
@@ -52,44 +52,7 @@ const props = defineProps({
   },
 })
 
-/*
-
-const typedText = ref('')
-const typedText2 = ref('')
-let typingInterval
-
-const typeText = (text, refName) => {
-  clearInterval(typingInterval)
-  refName.value = ''
-
-  let charactersShown = 0
-
-  typingInterval = setInterval(() => {
-    charactersShown++
-    refName.value = text.slice(0, charactersShown)
-
-    if (charactersShown >= text.length) {
-      clearInterval(typingInterval)
-    }
-  }, 100)
-}
-
-onMounted(() => {
-  setTimeout(() => {
-    typeText(t('home.greeting_line1'), typedText)
-    setTimeout(() => {
-      typeText(t('home.greeting_line2'), typedText2)
-    }, 3000)
-  }, 3000)
-})
-
-onBeforeUnmount(() => {
-  clearInterval(typingInterval)
-})
-*/
-
 const palette = [
-  'var(--color-red-500)',
   'var(--color-blue-500)',
   'var(--color-green-500)',
   'var(--color-yellow-500)',
@@ -137,7 +100,7 @@ onMounted(() => {
         clearInterval(typingInterval)
       }
     }, 100)
-  }, 3000)
+  }, 1000)
 })
 
 onBeforeUnmount(() => {
@@ -169,13 +132,19 @@ const particles = computed(() => {
   const originals = props.pParticles
   if (!originals.length) return []
 
-  const total = props.includeShadows ? Math.max(originals.length, props.maxCount) : originals.length
+  //const total = props.includeShadows ? Math.max(originals.length, props.maxCount) : originals.length
+  const total = Math.max(originals.length, props.maxCount)
 
   return Array.from({ length: total }, (_, index) => {
     const particle = originals[index % originals.length]
+
     return {
       ...particle,
-      opacity: index < originals.length ? 1 : ((props.maxCount - index) / props.maxCount) * 0.6,
+      opacity: props.includeShadows
+        ? index < originals.length
+          ? 1
+          : ((props.maxCount - index) / props.maxCount) * 0.6
+        : props.opacities[index % props.opacities.length],
       isShadow: index > originals.length,
       details: index < originals.length ? particle.details : undefined,
       click: index < originals.length ? particle.click : undefined,
@@ -205,7 +174,6 @@ function addParticles(time) {
 }
 
 onMounted(() => {
-  //addParticles()
   frameId = requestAnimationFrame(addParticles)
   // Allow the initial centred position to render first.
   positionFrame = requestAnimationFrame(() => {
@@ -216,7 +184,6 @@ onMounted(() => {
 })
 
 onBeforeUnmount(() => {
-  //clearInterval(particlesTimer)
   cancelAnimationFrame(frameId)
   cancelAnimationFrame(positionFrame)
   cancelAnimationFrame(targetFrame)
@@ -304,7 +271,7 @@ function particleOffset(index) {
               >
                 <tspan
                   v-if="letter.visible"
-                  class="letter shrink-cursor"
+                  class="letter shrink-cursor font-light"
                   fill="currentColor"
                   :style="{ '--letter-color': letter.color }"
                 >
@@ -401,8 +368,8 @@ function particleOffset(index) {
   position: absolute;
   transform: translate(-50%, -50%);
   transition:
-    left 3.5s ease-in-out 1s,
-    top 3.5s ease-in-out 1s;
+    left 600ms ease-in-out,
+    top 600ms ease-in-out;
 }
 
 .container {

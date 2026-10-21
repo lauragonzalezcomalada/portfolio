@@ -1,193 +1,6 @@
 <script setup>
-const projects = [
-  {
-    orientation: 'right',
-    title: 'AI-powered Contract Processing Platform',
-    shortDescription:
-      'An AI-assisted workflow that extracts structured information from real estate contracts, presents it for human validation and synchronises confirmed data with CRM systems.',
-    description: {
-      title: `AI-powered Contract Processing Platform`,
-      sections: [
-        {
-          label: `The challenge`,
-          description: `Real estate transactions involve purchase contracts, broker agreements and supporting addenda, with essential information scattered across documents. Manually transferring property details, financial terms and deadlines into a CRM is time-consuming and prone to errors.`,
-        },
-        {
-          label: `My contribution`,
-          description: `I developed the document upload and extraction workflow, integrated Claude for AI-assisted processing, and built the interface for reviewing and editing extracted information. I also implemented data persistence with Supabase and contract-specific field mappings for CRM synchronisation.`,
-        },
-        {
-          label: `How it works`,
-          description: `Users upload the documents associated with a transaction. The platform analyses them together and extracts information such as property details, purchase price, key dates, contact information and broker compensation.`,
-        },
-        {
-          label: `Key technical challenges`,
-          description: `<ul> <li> <span class="font-semibold">Processing multiple documents:</span> combining information from related PDFs while preserving rules about which document can supply each field.</li>
-<li> <span class="font-semibold">Handling uncertainty:</span> returning missing values explicitly and providing field-level confidence scores.</li>
-<li> <span class="font-semibold">Keeping compensation data distinct:</span> separating buyer-broker compensation, seller-paid compensation and seller concessions.</li>
-<li> <span class="font-semibold">Mapping data to the CRM:</span> translating a consistent extraction format into the appropriate custom fields for each contract type.</li>
-</ul>`,
-        },
-        {
-          label: `Product value`,
-          description: `The platform brings document processing, human review and CRM updates into one workflow, reducing repetitive data entry while keeping users in control of the information submitted.`,
-        },
-        {
-          label: `Technologies`,
-          description: `Nuxt.js · Node.js · Supabase · Tailwind CSS · Claude API · CRM APIs`,
-        },
-      ],
-    },
-    keys: [
-      'AI Integration',
-      'Document Processing',
-      'CRM Integration',
-      'Supabase',
-      'Nuxt.js',
-      'Node.js',
-      'Tailwind CSS',
-    ],
-  },
-  {
-    orientation: 'left',
-    title: 'Dynamic Form Builder',
-    shortDescription:
-      'A configurable form platform that enables non-technical users to create dynamic forms with reusable components, conditional logic, and automatic CRM synchronisation.',
-    description: {
-      title: 'Dynamic Form Builder',
-      sections: [
-        {
-          label: 'The challenge',
-          description: `Different workflows require different information, but creating and maintaining a separate form for every use case introduces repetitive development work. Teams need a flexible way to configure forms without relying on a developer for every change.`,
-        },
-        {
-          label: 'My contribution',
-          description: `I developed a configurable form system with reusable input components, conditional field visibility and validation. I connected form submissions to CRM workflows and used Supabase to persist form configurations and submission data.`,
-        },
-        {
-          label: 'How it works',
-          description: `Users configure forms using reusable components and define conditions that determine which fields appear. As someone completes a form, the interface adapts to their answers and validates the relevant inputs. Submitted information is mapped to the corresponding CRM fields and synchronised automatically.`,
-        },
-        {
-          label: 'Key technical challenges',
-          description: `<ul>
-        <li><span class="font-semibold">Reusable field components:</span> supporting different input types through a consistent configuration and component interface.</li>
-        <li><span class="font-semibold">Conditional logic:</span> keeping field visibility and validation aligned as answers change.</li>
-        <li><span class="font-semibold">Reactive form state:</span> coordinating updates between nested components, dependent fields and validation rules.</li>
-        <li><span class="font-semibold">CRM integration:</span> translating configurable form submissions into the field structure expected by the CRM.</li>
-      </ul>`,
-        },
-        {
-          label: 'Product value',
-          description: `The platform gives teams more control over their data collection workflows, reduces repetitive form development and removes the need to manually transfer submissions into the CRM. Reusable components provide a consistent experience across different forms.`,
-        },
-        {
-          label: 'Technologies',
-          description: 'Nuxt.js · Node.js · Supabase · Tailwind CSS · CRM APIs',
-        },
-      ],
-    },
-    keys: [
-      'Form Builder',
-      'Dynamic Forms',
-      'CRM Integration',
-      'Supabase',
-      'Nuxt.js',
-      'Node.js',
-      'Tailwind CSS',
-    ],
-  },
-  {
-    orientation: 'right',
-    title: 'Local Events & Community Platform',
-    shortDescription:
-      'A web and mobile platform for publishing local events, managing ticket sales, and discovering nearby activities based on location, interests, and availability.',
-    description: {
-      title: 'Local Events & Community Platform',
-      sections: [
-        {
-          label: 'The challenge',
-          description: `Local event discovery and organisation often involve separate tools for promotion, ticketing and payments. The goal was to bring these activities together, helping organisers manage their events and making it easier for people to find activities that fit their interests and schedules.`,
-        },
-        {
-          label: 'My contribution',
-          description: `I developed the web platform and a companion mobile app using Flutter, implementing event publishing, ticket management, attendance tracking and location-based discovery. I also integrated banking functionality to support payment workflows. The earlier web implementation used Python and Django on the backend, with Angular and Vue on the frontend; I am planning its migration to Nuxt.js, Express, Node.js and Supabase.`,
-        },
-        {
-          label: 'How it works',
-          description: `Organisers publish local events and projects, manage ticket sales and track attendance. Users browse activities through an interactive map and filter results by location, interests and dates. The web platform and Flutter mobile app provide access to these workflows, with banking integration supporting payments.`,
-        },
-        {
-          label: 'Key technical challenges',
-          description: `<ul>
-        <li><span class="font-semibold">Location-based discovery:</span> combining interactive map search with filters for interests and dates.</li>
-        <li><span class="font-semibold">Ticket management:</span> coordinating ticket sales and attendance records for each event.</li>
-        <li><span class="font-semibold">Banking integration:</span> connecting payment workflows with event and ticket data.</li>
-        <li><span class="font-semibold">Web and mobile experiences:</span> adapting event discovery and management workflows to browser and mobile interfaces.</li>
-      </ul>`,
-        },
-        {
-          label: 'Product value',
-          description: `The platform connects local communities with relevant activities while giving organisers a central place to publish events, manage tickets and track participation. Web and mobile access supports both advance planning and discovery on the go.`,
-        },
-        {
-          label: 'Technologies',
-          description: `Current implementation: Python · Django · Angular · Vue.js · Flutter · Banking integration<br>
-      Planned web migration: Nuxt.js · Express · Node.js · Supabase · Tailwind CSS`,
-        },
-      ],
-    },
-    keys: [
-      'Event Management',
-      'Ticket Sales',
-      'Map-based Discovery',
-      'Banking Integration',
-      'Flutter',
-      'Django',
-      'Vue.js',
-    ],
-  },
-  {
-    orientation: 'left',
-    title: 'Forensic Report Automation Platform',
-    shortDescription:
-      'A configurable document generation platform that transforms structured form submissions into professional Word reports for forensic experts and expert witnesses.',
-    description: {
-      title: 'Forensic Report Automation Platform',
-      sections: [
-        {
-          label: 'The challenge',
-          description: `Preparing expert reports involves organising case information, drafting recurring sections and maintaining consistent document formatting. Repeating this work manually takes time and can introduce omissions or inconsistencies across reports.`,
-        },
-        {
-          label: 'My contribution',
-          description: `I developed a configurable workflow that connects structured form inputs with report generation, including editable Word (.docx) generation. I built the form interface and document generation logic using Nuxt.js.`,
-        },
-        {
-          label: 'How it works',
-          description: `Users enter case information through structured forms. The platform uses the submitted data and configured report structure to assemble a formatted document. Reports can be exported as editable Word documents for further review and refinement.`,
-        },
-        {
-          label: 'Key technical challenges',
-          description: `<ul>
-        <li><span class="font-semibold">Configurable report structures:</span> supporting different reporting requirements while reusing common sections and generation logic.</li>
-        <li><span class="font-semibold">Data-to-document mapping:</span> placing submitted information into the appropriate report sections and handling optional or missing values.</li>
-      </ul>`,
-        },
-        {
-          label: 'Product value',
-          description: `The platform reduces repetitive drafting and formatting work, helping professionals prepare reports more consistently. Word export gives experts the flexibility to refine the content before finalising it.`,
-        },
-        {
-          label: 'Technologies',
-          description: 'Nuxt.js · Tailwind CSS · DOCX generation',
-        },
-      ],
-    },
-    keys: ['Document Generation', 'Forensic Reports', 'DOCX Export', 'Nuxt.js', 'Tailwind CSS'],
-  },
-]
-
+const { t, tm, rt, localePath } = useI18n()
+/*
 const container = ref(null)
 const drawingEnabled = ref(false)
 const animationFinished = ref(false)
@@ -206,8 +19,11 @@ const wheelTarget = computed(() => ({
   y: 0.5,
 }))
 
-const txt = 'PROJECTS'
+*/
 
+const projects = computed(() => tm('projects.projects'))
+const txt = t('projects.spinningWeel')
+/*
 onMounted(async () => {
   const { default: P5 } = await import('p5')
 
@@ -269,13 +85,24 @@ onMounted(async () => {
     }
   }, container.value)
 })
-
+*/
+/*
 onBeforeUnmount(() => {
   disposed = true
   sketch?.remove()
-})
+})*/
+
 const detailsOpen = ref(false)
 const pushedLeft = ref(false)
+
+const wheelTarget = computed(() => ({
+  x: detailsOpen.value
+    ? pushedLeft.value
+      ? 75 // Modal on the left → wheel on the right
+      : 25 // Modal on the right → wheel on the left
+    : 50,
+  y: 50,
+}))
 
 const openProjectDetails = (project) => {
   detailsOpen.value = !detailsOpen.value
@@ -300,34 +127,44 @@ const onModalOpenChange = (open) => {
 
 <template>
   <div class="relative w-full h-full flex items-center justify-center">
-    <div
+    <!-- <div
       ref="container"
       class="absolute inset-0 w-full h-full shrink-cursor"
-    />
+    /> -->
+    <div class="absolute inset-0 w-full h-full pointer-events-none">
+      <SpinningWheel
+        :finalPosition="wheelTarget"
+        :opacities="[1, 0.3, 0.8, 0.3]"
+        :pParticles="[
+          {
+            text: t('projects.spinningWeel'),
+          },
+        ]"
+        :minFontSize="30"
+        :maxCount="70"
+        :circleRadius="80"
+        :includeShadows="false"
+        :spinEnabled="false"
+        :includeGreeting="false"
+      />
+    </div>
 
     <div
-      v-if="animationFinished"
       class="absolute z-20 grid px-10"
-      :class="
-        detailsOpen
-          ? /*pushedLeft
-            ? 'grid-cols-1 gap-x-0 gap-y-4 right-5'
-            : 'grid-cols-1 gap-x-0 gap-y-4 left-5'*/ 'hidden'
-          : 'grid-cols-1 md:grid-cols-2 gap-x-[50dvw] gap-y-[7dvh]'
-      "
+      :class="detailsOpen ? 'hidden' : 'grid-cols-1 md:grid-cols-2 gap-x-[50dvw] gap-y-1'"
     >
       <div
         v-for="project in projects"
         :key="project.title"
         @click="openProjectDetails(project)"
-        class="project-card shrink-cursor relative isolate overflow-hidden flex flex-col gap-2 max-w-xs bg-white text-primary p-4 rounded-2xl shadow-lg shadow-primary-200 hover:scale-102 transition-all duration-500 hover:shadow-lg"
+        class="project-card shrink-cursor relative isolate overflow-hidden flex flex-col gap-2 max-w-sm bg-white text-primary p-4 rounded-2xl shadow-lg shadow-primary-200 hover:scale-102 transition-all duration-500 hover:shadow-lg"
       >
-        <h2 class="text-xl font-bold">{{ project.title }}</h2>
+        <h2 class="text-xl font-bold">{{ rt(project.title) }}</h2>
         <p
           v-if="!detailsOpen"
           class="text-xs"
         >
-          {{ project.shortDescription }}
+          {{ rt(project.shortDescription) }}
         </p>
         <div
           v-if="!detailsOpen"
@@ -338,7 +175,7 @@ const onModalOpenChange = (open) => {
             :key="key"
           >
             <UBadge
-              :label="key"
+              :label="rt(key)"
               variant="outline"
               class="ring-primary/70 text-primary/70"
             />
@@ -368,15 +205,15 @@ const onModalOpenChange = (open) => {
             <div
               class="flex flex-col gap-4 p-8 shrink-cursor scrollable overflow-y-auto bg-primary text-white max-h-[85dvh] min-w-[50dvw] no-border"
             >
-              <h2 class="text-3xl font-bold">{{ project.description.title }}</h2>
+              <h2 class="text-3xl font-bold">{{ rt(project.description.title) }}</h2>
               <div
                 v-for="section in project.description.sections"
                 :key="section.label"
               >
-                <h3 class="text-lg font-semibold">{{ section.label }}</h3>
+                <h3 class="text-lg font-semibold">{{ rt(section.label) }}</h3>
                 <div
                   class="text-sm"
-                  v-html="section.description"
+                  v-html="rt(section.description)"
                 ></div>
               </div>
             </div>
@@ -484,6 +321,6 @@ const onModalOpenChange = (open) => {
 }
 
 .project-card {
-  animation: fade-in 1500ms ease-out both;
+  animation: fade-in 2s ease-out both 3s;
 }
 </style>

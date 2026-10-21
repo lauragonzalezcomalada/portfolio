@@ -11,6 +11,10 @@ export default defineNuxtConfig({
     ],
     defaultLocale: 'en',
     strategy: 'prefix_except_default',
+    compilation: {
+      strictMessage: false,
+      escapeHtml: false,
+    },
   },
   css: ['~/assets/css/main.css'],
 

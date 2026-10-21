@@ -3,10 +3,185 @@
     "projects": "Proyectos",
     "about": "Sobre mí",
     "contact": "Contacto",
-    "playground": "Patio de juegos"
+    "playground": "Juegos"
   },
   "home": {
     "greeting_line1": "Hola, soy lauragonzalezcomalada",
-    "greeting_line2": "desarrolladora de software con buen ojo para el diseño"
+    "greeting_line2": "ingeniera de software con buen ojo para el diseño"
+  },
+  "projects": {
+    "spinningWeel": "PROYECTOS",
+    "projects": [
+      {
+        "orientation": "right",
+        "title": "Plataforma de procesamiento de contratos con IA",
+        "shortDescription": "Un flujo de trabajo asistido por IA que extrae información estructurada de contratos inmobiliarios, la presenta para su validación humana y sincroniza los datos confirmados con sistemas CRM.",
+        "description": {
+          "title": "Plataforma de procesamiento de contratos con IA",
+          "sections": [
+            {
+              "label": "El reto",
+              "description": "Las transacciones inmobiliarias implican contratos de compraventa, acuerdos de intermediación y anexos complementarios, con información esencial repartida entre varios documentos. Introducir manualmente los datos del inmueble, las condiciones económicas y los plazos en un CRM requiere tiempo y puede dar lugar a errores."
+            },
+            {
+              "label": "Mi contribución",
+              "description": "Desarrollé el flujo de carga de documentos y extracción de datos, integré Claude para el procesamiento asistido por IA y creé la interfaz para revisar y editar la información extraída. También implementé la persistencia de datos con Supabase y la correspondencia entre los campos de cada tipo de contrato y los del CRM para sincronizar sus datos."
+            },
+            {
+              "label": "Cómo funciona",
+              "description": "Los usuarios cargan los documentos asociados a una transacción. La plataforma los analiza conjuntamente y extrae información como los datos del inmueble, el precio de compraventa, las fechas clave, los datos de contacto y los honorarios de intermediación. En un segundo paso, los datos extraídos se muestran en una pantalla donde el agente puede comprobar su exactitud y editar los valores propuestos. Una vez revisados y aprobados, se pueden sincronizar con el CRM."
+            },
+            {
+              "label": "Principales retos técnicos",
+              "description": "<ul><li><span class=\"font-semibold\">Procesamiento de múltiples documentos:</span> combinar información de varios PDF relacionados respetando las reglas que determinan qué documento puede aportar el valor de cada campo.</li>\n<li><span class=\"font-semibold\">Gestión de la incertidumbre:</span> indicar explícitamente los valores no encontrados y proporcionar un nivel de confianza para cada campo.</li>\n<li><span class=\"font-semibold\">Diferenciación de los conceptos económicos:</span> distinguir los honorarios del agente del comprador, los honorarios asumidos por el vendedor y las concesiones económicas del vendedor.</li>\n<li><span class=\"font-semibold\">Correspondencia de datos con el CRM:</span> adaptar un formato de extracción homogéneo a los campos personalizados correspondientes a cada tipo de contrato.</li>\n</ul>"
+            },
+            {
+              "label": "Valor del producto",
+              "description": "La plataforma integra el procesamiento de documentos, la revisión humana y la actualización del CRM en un único flujo de trabajo. Esto reduce la introducción repetitiva de datos y mantiene a los usuarios al control de la información que se envía."
+            },
+            {
+              "label": "Tecnologías",
+              "description": "Nuxt.js · Node.js · Supabase · Tailwind CSS · API de Claude · API de CRM"
+            }
+          ]
+        },
+        "keys": [
+          "Integración de IA",
+          "Procesamiento de documentos",
+          "Integración con CRM",
+          "Supabase",
+          "Nuxt.js",
+          "Node.js",
+          "Tailwind CSS"
+        ]
+      },
+      {
+        "orientation": "left",
+        "title": "Creador de formularios dinámicos",
+        "shortDescription": "Una plataforma configurable que permite a usuarios sin conocimientos técnicos crear formularios dinámicos con componentes reutilizables, lógica condicional y sincronización automática con el CRM.",
+        "description": {
+          "title": "Creador de formularios dinámicos",
+          "sections": [
+            {
+              "label": "El reto",
+              "description": "Cada flujo de trabajo requiere información diferente, pero crear y mantener un formulario específico para cada caso de uso supone tareas de desarrollo repetitivas. Los equipos necesitan una forma flexible de configurar formularios sin depender de un desarrollador para cada cambio."
+            },
+            {
+              "label": "Mi contribución",
+              "description": "Desarrollé un sistema de formularios configurable con componentes de entrada reutilizables, visibilidad condicional de los campos y validación. Conecté los datos enviados con los flujos de trabajo del CRM y utilicé Supabase para guardar las configuraciones de los formularios y las respuestas recibidas."
+            },
+            {
+              "label": "Cómo funciona",
+              "description": "Los usuarios configuran los formularios con componentes reutilizables, definen las condiciones que determinan qué campos se muestran y especifican a qué campo del CRM debe asignarse cada dato enviado. A medida que una persona completa el formulario, la interfaz se adapta a sus respuestas y valida los campos pertinentes. La información enviada se asigna a los campos correspondientes del CRM y se sincroniza automáticamente."
+            },
+            {
+              "label": "Principales retos técnicos",
+              "description": "<ul>\n<li><span class=\"font-semibold\">Componentes de campo reutilizables:</span> admitir diferentes tipos de entrada mediante una configuración y una interfaz de componentes coherentes.</li>\n<li><span class=\"font-semibold\">Lógica condicional:</span> mantener la visibilidad y la validación de los campos alineadas a medida que cambian las respuestas.</li>\n<li><span class=\"font-semibold\">Estado reactivo del formulario:</span> coordinar las actualizaciones entre componentes anidados, campos dependientes y reglas de validación.</li>\n<li><span class=\"font-semibold\">Integración con el CRM:</span> adaptar los datos enviados desde los formularios configurables a la estructura de campos que requiere el CRM.</li>\n</ul>"
+            },
+            {
+              "label": "Valor del producto",
+              "description": "La plataforma ofrece a los equipos más control sobre sus flujos de recogida de datos, reduce las tareas repetitivas de desarrollo de formularios y elimina la necesidad de trasladar manualmente las respuestas al CRM. Los componentes reutilizables ofrecen una experiencia coherente entre los distintos formularios."
+            },
+            {
+              "label": "Tecnologías",
+              "description": "Nuxt.js · Node.js · Supabase · Tailwind CSS · API de CRM"
+            }
+          ]
+        },
+        "keys": [
+          "Creación de formularios",
+          "Formularios dinámicos",
+          "Integración con CRM",
+          "Supabase",
+          "Nuxt.js",
+          "Node.js",
+          "Tailwind CSS"
+        ]
+      },
+      {
+        "orientation": "right",
+        "title": "Plataforma de eventos locales y comunidad",
+        "shortDescription": "Una plataforma web y móvil para publicar eventos locales, gestionar la venta de entradas y descubrir actividades cercanas según la ubicación, los intereses y la disponibilidad.",
+        "description": {
+          "title": "Plataforma de eventos locales y comunidad",
+          "sections": [
+            {
+              "label": "El reto",
+              "description": "Descubrir y organizar eventos locales suele implicar el uso de herramientas separadas para la promoción, la venta de entradas y los pagos. El objetivo era unificar estas tareas para ayudar a los organizadores a gestionar sus eventos y facilitar que las personas encontraran actividades adecuadas a sus intereses y horarios."
+            },
+            {
+              "label": "Mi contribución",
+              "description": "Desarrollé la plataforma web y una aplicación móvil complementaria con Flutter, implementando la publicación de eventos, la gestión de entradas, el control de asistencia y el descubrimiento de actividades según la ubicación. También integré funcionalidades bancarias para gestionar los pagos. La implementación web anterior utilizaba Python y Django en el backend, con Angular y Vue en el frontend; actualmente estoy planificando su migración a Nuxt.js, Express, Node.js y Supabase."
+            },
+            {
+              "label": "Cómo funciona",
+              "description": "Los organizadores publican eventos y proyectos locales, gestionan la venta de entradas y controlan la asistencia. Los usuarios exploran actividades mediante un mapa interactivo y filtran los resultados por ubicación, intereses y fechas. La plataforma web y la aplicación móvil desarrollada con Flutter permiten acceder a estas funcionalidades, con una integración bancaria que facilita los pagos."
+            },
+            {
+              "label": "Principales retos técnicos",
+              "description": "<ul>\n<li><span class=\"font-semibold\">Descubrimiento según la ubicación:</span> combinar la búsqueda en un mapa interactivo con filtros por intereses y fechas.</li>\n<li><span class=\"font-semibold\">Gestión de entradas:</span> coordinar la venta de entradas y los registros de asistencia de cada evento.</li>\n<li><span class=\"font-semibold\">Integración bancaria:</span> conectar los flujos de pago con los datos de los eventos y las entradas.</li>\n<li><span class=\"font-semibold\">Experiencias web y móvil:</span> adaptar los flujos de descubrimiento y gestión de eventos a las interfaces web y móvil.</li>\n</ul>"
+            },
+            {
+              "label": "Valor del producto",
+              "description": "La plataforma conecta a las comunidades locales con actividades de su interés y ofrece a los organizadores un espacio centralizado para publicar eventos, gestionar entradas y hacer un seguimiento de la participación. El acceso web y móvil facilita tanto la planificación anticipada como el descubrimiento de actividades sobre la marcha."
+            },
+            {
+              "label": "Tecnologías",
+              "description": "Implementación actual: Python · Django · Angular · Vue.js · Flutter · Integración bancaria<br>\nMigración web prevista: Nuxt.js · Express · Node.js · Supabase · Tailwind CSS"
+            }
+          ]
+        },
+        "keys": [
+          "Gestión de eventos",
+          "Venta de entradas",
+          "Descubrimiento mediante mapas",
+          "Integración bancaria",
+          "Flutter",
+          "Django",
+          "Vue.js"
+        ]
+      },
+      {
+        "orientation": "left",
+        "title": "Plataforma de automatización de informes periciales",
+        "shortDescription": "Una plataforma configurable de generación de documentos que transforma los datos de formularios estructurados en informes profesionales en formato Word para especialistas forenses y peritos judiciales.",
+        "description": {
+          "title": "Plataforma de automatización de informes periciales",
+          "sections": [
+            {
+              "label": "El reto",
+              "description": "La preparación de informes periciales implica organizar la información de cada caso, redactar apartados recurrentes y mantener un formato coherente de los documentos. Repetir estas tareas manualmente requiere tiempo y puede generar omisiones o incoherencias entre informes."
+            },
+            {
+              "label": "Mi contribución",
+              "description": "Desarrollé un flujo de trabajo configurable que conecta los datos introducidos en formularios estructurados con la generación de informes, incluidos documentos Word editables (.docx). Creé la interfaz de los formularios y la lógica de generación de documentos con Nuxt.js."
+            },
+            {
+              "label": "Cómo funciona",
+              "description": "Los usuarios introducen la información del caso mediante formularios estructurados. La plataforma utiliza los datos enviados y la estructura configurada del informe para generar un documento con el formato correspondiente. Los informes se pueden exportar como documentos Word editables para revisarlos y ajustar su contenido."
+            },
+            {
+              "label": "Principales retos técnicos",
+              "description": "<ul>\n<li><span class=\"font-semibold\">Estructuras de informe configurables:</span> adaptarse a distintos requisitos de elaboración de informes reutilizando apartados comunes y la lógica de generación.</li>\n<li><span class=\"font-semibold\">Correspondencia entre datos y documentos:</span> incorporar la información enviada a los apartados correspondientes del informe y gestionar los valores opcionales o ausentes.</li>\n</ul>"
+            },
+            {
+              "label": "Valor del producto",
+              "description": "La plataforma reduce las tareas repetitivas de redacción y formato, ayudando a los profesionales a elaborar informes con mayor coherencia. La exportación a Word ofrece a los expertos la flexibilidad de revisar y ajustar el contenido antes de darlo por definitivo."
+            },
+            {
+              "label": "Tecnologías",
+              "description": "Nuxt.js · Tailwind CSS · Generación de documentos DOCX"
+            }
+          ]
+        },
+        "keys": [
+          "Generación de documentos",
+          "Informes periciales",
+          "Exportación a DOCX",
+          "Nuxt.js",
+          "Tailwind CSS"
+        ]
+      }
+    ]
   }
 }
