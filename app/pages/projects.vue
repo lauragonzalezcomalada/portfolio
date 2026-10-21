@@ -207,7 +207,6 @@ const wheelTarget = computed(() => ({
 }))
 
 const txt = 'PROJECTS'
-const txt2 = 'AI-powered Contract Processing Platform'
 
 onMounted(async () => {
   const { default: P5 } = await import('p5')
@@ -279,7 +278,6 @@ const detailsOpen = ref(false)
 const pushedLeft = ref(false)
 
 const openProjectDetails = (project) => {
-  console.log('project: ', project)
   detailsOpen.value = !detailsOpen.value
   if (detailsOpen.value) {
     if (project.orientation === 'left') {
@@ -315,12 +313,13 @@ const onModalOpenChange = (open) => {
           ? /*pushedLeft
             ? 'grid-cols-1 gap-x-0 gap-y-4 right-5'
             : 'grid-cols-1 gap-x-0 gap-y-4 left-5'*/ 'hidden'
-          : 'grid-cols-1 md:grid-cols-2 gap-x-[50dvw] gap-y-[2dvh]'
+          : 'grid-cols-1 md:grid-cols-2 gap-x-[50dvw] gap-y-[7dvh]'
       "
     >
       <div
         v-for="project in projects"
         :key="project.title"
+        @click="openProjectDetails(project)"
         class="project-card shrink-cursor relative isolate overflow-hidden flex flex-col gap-2 max-w-xs bg-white text-primary p-4 rounded-2xl shadow-lg shadow-primary-200 hover:scale-102 transition-all duration-500 hover:shadow-lg"
       >
         <h2 class="text-xl font-bold">{{ project.title }}</h2>
@@ -345,26 +344,26 @@ const onModalOpenChange = (open) => {
             />
           </div>
         </div>
+        <UButton
+          trailing-icon="i-heroicons-chevron-right"
+          variant="link"
+          size="sm"
+          class="self-end mt-auto text-primary/70 hover:text-primary"
+          >Project Details
+        </UButton>
         <UModal
           :ui="{
             content: [
               'top-[9dvh] translate-x-0 translate-y-0',
-              'w-[50dvw] max-w-none ring-0 border-0 shadow-2xl shadow-primary-500',
+              'w-[80dw] md:w-[50dvw] max-w-none ring-0 border-0 shadow-2xl shadow-primary-500',
               'transition-[left] duration-1000 ease-in-out',
               pushedLeft ? 'left-[5dvw]' : 'left-[45dvw]',
             ].join(' '),
-            overlay: 'bg-primary-100/20 backdrop-blur-2xs',
+            overlay: 'bg-primary-50/10 backdrop-blur-2xs',
           }"
           @update:open="onModalOpenChange"
+          :open="detailsOpen"
         >
-          <UButton
-            trailing-icon="i-heroicons-chevron-right"
-            variant="link"
-            size="sm"
-            class="self-end mt-auto text-primary/70 hover:text-primary"
-            @click="openProjectDetails(project)"
-            >Project Details
-          </UButton>
           <template #content>
             <div
               class="flex flex-col gap-4 p-8 shrink-cursor scrollable overflow-y-auto bg-primary text-white max-h-[85dvh] min-w-[50dvw] no-border"

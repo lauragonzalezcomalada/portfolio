@@ -1,0 +1,12 @@
+{
+  "nav": {
+    "projects": "Projectes",
+    "about": "Sobre mi",
+    "contact": "Contacte",
+    "playground": "Sala de jocs"
+  },
+  "home": {
+    "greeting_line1": "Hola, soc la lauragonzalezcomalada",
+    "greeting_line2": "desenvolupadora de software amb bon ull pel disseny"
+  }
+}

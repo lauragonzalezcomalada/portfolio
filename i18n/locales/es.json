@@ -1,0 +1,12 @@
+{
+  "nav": {
+    "projects": "Proyectos",
+    "about": "Sobre mí",
+    "contact": "Contacto",
+    "playground": "Patio de juegos"
+  },
+  "home": {
+    "greeting_line1": "Hola, soy lauragonzalezcomalada",
+    "greeting_line2": "desarrolladora de software con buen ojo para el diseño"
+  }
+}

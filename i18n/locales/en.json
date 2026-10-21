@@ -1,0 +1,12 @@
+{
+  "nav": {
+    "projects": "Projects",
+    "about": "About me",
+    "contact": "Contact",
+    "playground": "Playground"
+  },
+  "home": {
+    "greeting_line1": "Hi, I'm lauragonzalezcomalada",
+    "greeting_line2": "A software engineer with an eye for design"
+  }
+}

@@ -1,5 +1,9 @@
 <script setup>
+const { t, setLocale } = useI18n()
+const localePath = useLocalePath()
+
 const route = useRoute()
+const isHome = computed(() => route.path === localePath('/') || route.path === '/')
 const scrollLine = ref(null)
 const lineHeight = ref(0)
 const footerEl = ref(null)
@@ -38,29 +42,35 @@ onBeforeUnmount(() => {
 <template>
   <div class="relative screen-layout">
     <header
+      v-if="!isHome"
       class="fixed inset-x-0 top-0 h-16 z-50 px-4 flex items-center justify-center gap-12 screen-header bg-white"
-      @click="navigateTo('/')"
+      @click="navigateTo(localePath('/'))"
     >
       <h1
         variant="link"
         class="left-entrance font-semibold text-black/20 hover:text-red-500 shrink-cursor"
-        @click="navigateTo('/projects')"
+        @click="navigateTo(localePath('/projects'))"
       >
-        Projects
+        {{ t('nav.projects') }}
       </h1>
       <h1
         variant="link"
         class="bottom-entrance font-semibold text-black/20 hover:text-red-500 shrink-cursor"
-        @click="navigateTo('/aboutme')"
+        @click="navigateTo(localePath('/aboutme'))"
       >
-        About me
+        {{ t('nav.about') }}
       </h1>
-      <h1 class="right-entrance font-semibold text-black/20 hover:text-red-500">Contact</h1>
+      <h1 class="right-entrance font-semibold text-black/20 hover:text-red-500">
+        {{ t('nav.contact') }}
+      </h1>
     </header>
-    <main class="pt-16 screen-content">
+    <main
+      class="screen-content"
+      :class="{ 'pt-16': !isHome }"
+    >
       <slot />
       <div
-        v-if="route.path === '/'"
+        v-if="isHome"
         class="scroll-arrow"
         aria-hidden="true"
       >
@@ -105,7 +115,6 @@ onBeforeUnmount(() => {
         class="text-white font-bold text-lg"
       />
     </footer>-->
-    <DrawingOverlay v-if="route.path === '/'" />
   </div>
 </template>
 
