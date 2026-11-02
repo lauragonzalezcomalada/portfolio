@@ -2,8 +2,7 @@
   "nav": {
     "projects": "Projects",
     "about": "About me",
-    "contact": "Contact",
-    "playground": "Playground"
+    "contact": "Contact"
   },
   "home": {
     "greeting_line1": "Hi, I'm lauragonzalezcomalada",
@@ -183,5 +182,108 @@
         ]
       }
     ]
+  },
+  "aboutme": {
+    "skills_line1": "I am a software engineer with a good eye for design",
+    "skills_line2": "and I like to build products that are easy to use and beautiful.",
+    "countries_line1": "travel? a passion",
+    "countries_line2": "...and the yet to come",
+    "country_list": [
+      "spain",
+      "italy",
+      "france",
+      "germany",
+      "denmark",
+      "uk",
+      "austria",
+      "chechrepublic",
+      "unitedstates",
+      "canada",
+      "australia",
+      "indonesia",
+      "singapore",
+      "malaysia",
+      "thailand",
+      "laos",
+      "cambodia",
+      "vietnam",
+      "china",
+      "japan",
+      "argentina",
+      "paraguay"
+    ],
+    "randomfacts": "if you know, you know",
+    "hint": "hover a beat · click a name",
+    "currently_into": "currently into",
+    "reference_notes": {
+      "vonnegut": "a book that stuck",
+      "lazerleo": "a ride around the world",
+      "lazarino": "how to travel slowly",
+      "nadie": "in the kitchen, on the way home",
+      "fivew": "slow journalism"
+    },
+    "references": [
+      {
+        "text": "A lasting read",
+        "href": "https://www.goodreads.com/en/book/show/4981.Slaughterhouse_Five",
+        "class": "text-blue-500"
+      },
+      {
+        "text": "World on wheels",
+        "href": "https://www.polarsteps.com/Lazerleo",
+        "class": "text-red-500"
+      },
+      {
+        "text": "Travel slowly",
+        "href": "https://losviajesdenena.com/",
+        "class": "text-green-500"
+      },
+      {
+        "text": "Radio on",
+        "href": "https://www.nadiesabenada.com/",
+        "class": "text-yellow-500"
+      },
+      {
+        "text": "Wider lenses",
+        "href": "https://www.revista5w.com/",
+        "class": "text-purple-500"
+      },
+      {
+        "text": "Playful code",
+        "href": "https://trcc.timrodenbroeker.de/",
+        "class": "text-teal-500"
+      }
+    ],
+    "texts": [
+      {
+        "text": "full-stack developer with an eye for design",
+        "class": "bg-blue-500 text-white italic"
+      },
+      {
+        "text": "I studied Telecommunications Engineering",
+        "class": "bg-green-500 text-white"
+      },
+      {
+        "text": "Leibniz Universität of Hannover",
+        "class": "bg-yellow-500 text-white font-bold"
+      },
+      {
+        "text": "web",
+        "class": "bg-red-500 text-white underline italic"
+      },
+      {
+        "text": "I build useful, intuitive, slightly playful digital experiences from start to finish, while keeping room for new places and experiences",
+        "class": "bg-purple-500 text-white max-w-md"
+      },
+      {
+        "text": "I like to make use of the latest technologies. My current stack is:",
+        "class": "bg-orange-500 text-white max-w-md"
+      },
+      {
+        "text": "👩🏽‍💻",
+        "class": "text-4xl"
+      }
+    ],
+    "spinningWeel": "ABOUTME"
   }
 }

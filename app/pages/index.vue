@@ -29,11 +29,11 @@ watch(selectedLocale, (newLocale) => {
           click: localePath('/contact'),
           class: 'text-warning',
         },
-        {
+        /*  {
           text: t('nav.playground'),
           click: localePath('/'),
           class: 'text-success',
-        },
+        },*/
       ]"
       :maxCount="35"
       :minFontSize="85"
@@ -41,7 +41,7 @@ watch(selectedLocale, (newLocale) => {
       :spinEnabled="false"
       :startAngle="-20"
       :circleRadius="200"
-      :includeGreeting="true"
+      :includeInnerMessage="true"
     />
   </div>
 </template>

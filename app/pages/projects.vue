@@ -1,5 +1,6 @@
 <script setup>
 const { t, tm, rt, localePath } = useI18n()
+
 /*
 const container = ref(null)
 const drawingEnabled = ref(false)
@@ -145,7 +146,7 @@ const onModalOpenChange = (open) => {
         :circleRadius="80"
         :includeShadows="false"
         :spinEnabled="false"
-        :includeGreeting="false"
+        :includeInnerMessage="false"
       />
     </div>
 

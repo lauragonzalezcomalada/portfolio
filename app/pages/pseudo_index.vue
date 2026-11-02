@@ -2,9 +2,9 @@
 import { z } from 'zod'
 import confetti from '@hiseb/confetti'
 
-const charactersShown = ref(0)
-const totalCharacters = segments.reduce((total, segment) => total + segment.text.length, 0)
-
+//const charactersShown = ref(0)
+//const totalCharacters = segments.reduce((total, segment) => total + segment.text.length, 0)
+/*
 onMounted(() => {
   const interval = setInterval(() => {
     charactersShown.value++
@@ -23,7 +23,7 @@ function visibleText(segmentIndex) {
     .reduce((total, segment) => total + segment.text.length, 0)
 
   return segments[segmentIndex].text.slice(0, Math.max(0, charactersShown.value - previousLength))
-}
+}*/
 
 const shapeVisible = ref(false)
 const lifeVisible = ref(false)
@@ -134,7 +134,7 @@ const emailSchema = z.object({
     @wheel="handleWheel"
   >
     <div class="viewport">
-      <section
+      <!-- <section
         class="depth-section"
         :style="sectionStyle(0)"
       >
@@ -170,7 +170,7 @@ const emailSchema = z.object({
             something out.
           </div>
         </div>
-      </section>
+      </section> -->
       <section
         class="depth-section"
         :style="sectionStyle(1)"

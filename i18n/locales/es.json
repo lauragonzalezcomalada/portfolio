@@ -2,8 +2,7 @@
   "nav": {
     "projects": "Proyectos",
     "about": "Sobre mí",
-    "contact": "Contacto",
-    "playground": "Juegos"
+    "contact": "Contacto"
   },
   "home": {
     "greeting_line1": "Hola, soy lauragonzalezcomalada",
@@ -181,6 +180,136 @@
           "Nuxt.js",
           "Tailwind CSS"
         ]
+      }
+    ]
+  },
+  "aboutme": {
+    "skills_line1": "Sóc una enginyera de software amb bon ull pel disseny",
+    "skills_line2": "i em gusta construir productes que siguin fàcils d'utilitzar i美观.",
+    "countries_line1": "viajar? una pasión",
+    "countries_line2": "...y los que quedan",
+    "country_list": [
+      "españa",
+      "italia",
+      "francia",
+      "alemania",
+      "dinamarca",
+      "reinounido",
+      "austria",
+      "repúblicatxeca",
+      "estadosunits",
+      "canada",
+      "australia",
+      "indonesia",
+      "singapur",
+      "malasia",
+      "tailandia",
+      "laos",
+      "camboyaa",
+      "vietnam",
+      "china",
+      "japón",
+      "argentina",
+      "paraguay"
+    ],
+    "references": [
+      {
+        "text": "Un libro que perdura",
+        "href": "https://www.goodreads.com/en/book/show/4981.Slaughterhouse_Five",
+        "class": "text-blue-500"
+      },
+      {
+        "text": "El mundo sobre ruedas",
+        "href": "https://www.polarsteps.com/Lazerleo",
+        "class": "text-red-500"
+      },
+      {
+        "text": "Viajar sin prisa",
+        "href": "https://losviajesdenena.com/",
+        "class": "text-green-500"
+      },
+      {
+        "text": "Radio encendida",
+        "href": "https://www.nadiesabenada.com/",
+        "class": "text-yellow-500"
+      },
+      {
+        "text": "Ampliar la mirada",
+        "href": "https://www.revista5w.com/",
+        "class": "text-purple-500"
+      },
+      {
+        "text": "Jugar con código",
+        "href": "https://trcc.timrodenbroeker.de/",
+        "class": "text-teal-500"
+      }
+    ],
+    "texts": [
+      {
+        "text": "full-stack developer with an eye for design",
+        "class": "bg-blue-500 text-white italic"
+      },
+      {
+        "text": "I studied Telecommunications Engineering",
+        "class": "bg-green-500 text-white"
+      },
+      {
+        "text": "Leibniz Universität of Hannover",
+        "class": "bg-yellow-500 text-white font-bold"
+      },
+      {
+        "text": "web",
+        "class": "bg-red-500 text-white underline italic"
+      },
+      {
+        "text": "I build useful, intuitive, slightly playful digital experiences from start to finish, while keeping room for new places and experiences",
+        "class": "bg-purple-500 text-white max-w-md"
+      },
+      {
+        "text": "I like to make use of the latest technologies. My current stack is:",
+        "class": "bg-orange-500 text-white max-w-md"
+      },
+      {
+        "text": "👩🏽‍💻",
+        "class": "text-4xl"
+      }
+    ],
+    "path": [
+      {
+        "text": "I was born",
+        "details": "on a sunny Friday, 23 November 2001"
+      },
+      {
+        "text": "Always curious",
+        "details": "started playing piano at the age of 5, doing athletics, and getting lost in translation"
+      },
+      {
+        "text": "I studied",
+        "details": "Telecommunications Engineering at ETSETB, UPC – BarcelonaTech"
+      },
+      {
+        "text": "Did my thesis",
+        "details": "on LLM audio feature extraction at Leibniz Universität Hannover"
+      },
+      {
+        "text": "After graduating",
+        "details": "I started building for the web, turning curious ideas into working products"
+      },
+      {
+        "text": "But needed something more",
+        "details": "so I took some time to move to the opposite side of the world, Australia, where I learnt much many life skills and got a new perspective on life"
+      },
+      {
+        "text": "And started travelling around the world",
+        "details": "discovering new cultures and languages, and learning from the people I met"
+      },
+      {
+        "text": "Time to sit back came",
+        "details": "and I started building again, this time for the web, turning curious ideas into working projects"
+      },
+      {
+        "text": "Nowadays",
+        "details": "I build end-to-end experiences that are useful, intuitive, and a little playful, while keeping a movy lifestyle"
       }
     ]
   }

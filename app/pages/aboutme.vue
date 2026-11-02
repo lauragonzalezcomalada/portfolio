@@ -1,338 +1,305 @@
 <script setup>
-const items = [
-  { id: 1, text: 'Traveling the world is what I enjoy the most' },
-  { id: 2, text: 'Traveling the world is what I enjoy the most' },
-  { id: 3, text: 'Traveling the world is what I enjoy the most' },
-  { id: 4, text: 'Traveling the world is what I enjoy the most' },
-  { id: 5, text: 'Traveling the world is what I enjoy the most' },
-  { id: 6, text: 'Traveling the world is what I enjoy the most' },
-  { id: 7, text: 'Traveling the world is what I enjoy the most' },
-  { id: 8, text: 'Traveling the world is what I enjoy the most' },
-  { id: 9, text: 'Traveling the world is what I enjoy the most' },
-  { id: 10, text: 'Traveling the world is what I enjoy the most' },
-  { id: 11, text: 'Traveling the world is what I enjoy the most' },
-  { id: 12, text: 'Traveling the world is what I enjoy the most' },
-  { id: 13, text: 'Traveling the world is what I enjoy the most' },
-  { id: 14, text: 'Traveling the world is what I enjoy the most' },
-  { id: 15, text: 'Traveling the world is what I enjoy the most' },
-  { id: 16, text: 'Traveling the world is what I enjoy the most' },
-  { id: 17, text: 'Traveling the world is what I enjoy the most' },
-  { id: 18, text: 'Traveling the world is what I enjoy the most' },
-]
-const orbitContainer = ref(null)
+const { t, tm, rt } = useI18n()
 
-const orbitRadius = ref(150)
-const axisAngle = ref(0)
+const texts = computed(() => {
+  const messages = tm('aboutme.texts')
 
-const handleMouseMove = (event) => {
-  if (!orbitContainer.value) return
+  if (!Array.isArray(messages)) return []
 
-  const rect = orbitContainer.value.getBoundingClientRect()
+  return messages.map((item) => ({
+    text: rt(item.text),
+    class: item.class ? rt(item.class) : '',
+  }))
+})
+const placedItems = ref([])
+const mouse = reactive({ x: 0, y: 0 })
+const cursorVisible = ref(false)
 
-  const centerX = rect.left + rect.width / 2
-  const centerY = rect.top + rect.height / 2
+const nextText = computed(() => texts.value[placedItems.value.length])
 
-  // Unlimited radius controlled by mouseX
-  orbitRadius.value = event.clientX * 0.1
-
-  // Axis follows the mouse direction using X and Y
-  axisAngle.value = Math.atan2(event.clientY - centerY, event.clientX - centerX) * (180 / Math.PI)
+function trackMouse(event) {
+  mouse.x = event.clientX
+  mouse.y = event.clientY
+  cursorVisible.value = true
 }
+
+const stackSpin = ref(false)
+const stackSpinX = ref(null)
+const stackSpinY = ref(null)
+
+function pasteText(event) {
+  if (nextText.value === undefined) return
+
+  // The last one toggles a new spin
+  if (placedItems.value.length + 1 === texts.value.length) {
+    stackSpin.value = true
+    const rect = event.currentTarget.getBoundingClientRect()
+
+    stackSpinX.value = ((event.clientX - rect.left) / rect.width) * 100
+    stackSpinY.value = ((event.clientY - rect.top) / rect.height) * 100
+    placedItems.value.push({
+      id: placedItems.value.length,
+      text: '',
+      x: null,
+      y: null,
+      class: 'hidden',
+    })
+    return
+  }
+
+  const rect = event.currentTarget.getBoundingClientRect()
+
+  placedItems.value.push({
+    id: placedItems.value.length,
+    text: nextText.value.text,
+    x: event.clientX - rect.left,
+    y: event.clientY - rect.top,
+    class: nextText.value.class,
+  })
+}
+
+let draggedItem = null
+let dragOffset = { x: 0, y: 0 }
+
+function dragText(event, item) {
+  if (event.button !== 0) return
+
+  const element = event.currentTarget
+  const rect = element.offsetParent.getBoundingClientRect()
+
+  draggedItem = item
+
+  dragOffset = {
+    x: event.clientX - rect.left - item.x,
+    y: event.clientY - rect.top - item.y,
+  }
+
+  element.setPointerCapture(event.pointerId)
+}
+
+function moveText(event) {
+  if (!draggedItem) return
+
+  const rect = event.currentTarget.offsetParent.getBoundingClientRect()
+
+  draggedItem.x = event.clientX - rect.left - dragOffset.x
+  draggedItem.y = event.clientY - rect.top - dragOffset.y
+}
+
+function stopDragging(event) {
+  draggedItem = null
+
+  const element = event.currentTarget
+
+  if (element.hasPointerCapture(event.pointerId)) {
+    element.releasePointerCapture(event.pointerId)
+  }
+}
+
+function restartPage(event) {
+  if (
+    event.key.toLowerCase() !== 'r' ||
+    event.repeat ||
+    event.ctrlKey ||
+    event.metaKey ||
+    event.altKey ||
+    event.isComposing
+  )
+    return
+
+  // No reiniciar mientras escribes en un campo.
+  if (
+    event.target instanceof Element &&
+    event.target.closest(
+      'input, textarea, select, [contenteditable]:not([contenteditable="false"])'
+    )
+  )
+    return
+
+  placedItems.value = []
+  draggedItem = null
+  stackSpin.value = false
+}
+
+onMounted(() => {
+  window.addEventListener('keydown', restartPage)
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('keydown', restartPage)
+})
 </script>
 
 <template>
   <div
-    id="aboutme"
-    class="min-h-[calc(100dvh-4rem)] flex items-center justify-center overflow-visible"
-    @mousemove="handleMouseMove"
+    class="inset-0 overflow-hidden h-full w-full relative"
+    @pointermove="trackMouse"
+    @pointerleave="cursorVisible = false"
+    @click="pasteText"
   >
+    <div class="absolute inset-0 w-full h-full pointer-events-none">
+      <SpinningWheel
+        :finalPosition="{ x: 85, y: 20 }"
+        :opacities="[1, 0.3, 0.8, 0.3]"
+        :pParticles="[
+          {
+            text: t('aboutme.spinningWeel'),
+          },
+        ]"
+        :minFontSize="15"
+        :maxCount="70"
+        :circleRadius="30"
+        :includeShadows="false"
+        :spinEnabled="false"
+        :includeInnerMessage="false"
+        :duration="1000"
+      />
+    </div>
     <div
-      ref="orbitContainer"
-      class="relative w-96 h-96 overflow-visible"
+      class="absolute inset-0 w-full h-full pointer-events-none flex flex-col text-3xl p-20 gap-8 text-primary aboutme-text"
+    >
+      <div>
+        Hi I'm Laura and I'm a
+        <!-- <span
+          v-if="placedItems.length > 0"
+          class="spin-entrance inline-block text-blue-500"
+        >
+          full-stack developer with an eye for design
+        </span> -->
+      </div>
+      <div>I've always been curious about life and how things work.</div>
+      <div class="flex justify-end max-w-5xl">
+        <!--<span
+          v-if="placedItems.length > 1"
+          class="spin-entrance inline-block text-green-500"
+          >I studied Telecommunications Engineering </span
+        > -->at ETSETB-UPC Barcelona-Tech.
+      </div>
+      <div>Did my thesis on audio feature extraction with LLMs at</div>
+      <div>After graduating I started building things for the</div>
+      <div class="text-xs absolute bottom-5 left-5">Press R to restart</div>
+    </div>
+
+    <!-- Texts already placed -->
+    <!-- <div
+      v-for="item in placedItems"
+      :key="item.id"
+      :class="item.class"
+      class="absolute select-none text-2xl spin-entrance shrink-cursor p-2 rounded-md"
       :style="{
-        '--orbit-radius': `${orbitRadius}px`,
-        '--axis-angle': `${axisAngle}deg`,
+        left: `${item.x}px`,
+        top: `${item.y}px`,
+      }"
+      @pointerdown.stop="dragText($event, item)"
+      @pointermove.stop="moveText"
+      @pointerup.stop="stopDragging"
+      @pointercancel.stop="stopDragging"
+      @lostpointercapture="stopDragging"
+      @click.stop
+    >
+      {{ texts.value[item.id].text }}
+    </div> -->
+    <div
+      v-for="item in placedItems"
+      :key="item.id"
+      :class="[item.class === 'hidden' ? 'hidden' : texts[item.id]?.class]"
+      class="absolute select-none touch-none text-2xl spin-entrance shrink-cursor p-2 rounded-md"
+      :style="{
+        left: `${item.x}px`,
+        top: `${item.y}px`,
+      }"
+      @pointerdown.stop="dragText($event, item)"
+      @pointermove.stop="moveText"
+      @pointerup.stop="stopDragging"
+      @pointercancel.stop="stopDragging"
+      @lostpointercapture="stopDragging"
+      @click.stop
+    >
+      {{ texts[item.id]?.text }}
+    </div>
+
+    <!-- Preview of the next text under the cursor -->
+    <!--   <span
+      v-if="cursorVisible && placedItems.length < texts.length"
+      class="pointer-events-none absolute w-max max-w-sm select-none text-xl opacity-50 text-primary"
+      :style="{
+        left: `${mouse.x + 8}px`,
+        top: `${mouse.y + 8}px`,
       }"
     >
-      <!-- Fixed center -->
-      <div class="absolute inset-0 z-10 flex items-center justify-center">
-        <span class="text-2xl font-bold text-red-500"> About me </span>
-      </div>
-
-      <!-- Rotatable orbit axis -->
-      <div class="orbit-plane">
-        <div
-          v-for="(item, index) in items"
-          :key="item.id"
-          class="orbit-item"
-          :style="{
-            animationDelay: `${-index * (12 / items.length)}s`,
-          }"
-        >
-          <span class="orbit-text">
-            {{ item.text }}
-          </span>
-        </div>
-      </div>
+      {{ texts[placedItems.length].text }}
+    </span> -->
+    <Teleport to="body">
+      <span
+        v-if="cursorVisible && nextText !== undefined"
+        class="pointer-events-none fixed z-[101] w-max max-w-sm -translate-y-1/2 select-none text-xl opacity-50 text-primary"
+        :style="{
+          left: `${mouse.x + 24}px`,
+          top: `${mouse.y}px`,
+        }"
+      >
+        {{ nextText.text }}
+      </span>
+    </Teleport>
+    <div
+      v-if="stackSpin"
+      class="absolute inset-0 w-full h-full pointer-events-none"
+    >
+      <SpinningWheel
+        :finalPosition="{ x: stackSpinX, y: stackSpinY }"
+        :pParticles="[
+          {
+            text: 'Nuxt.js',
+          },
+          {
+            text: 'Vue.js',
+          },
+          {
+            text: 'TailwindCSS',
+          },
+          {
+            text: 'JavaScript',
+          },
+          {
+            text: 'Node.js',
+          },
+          {
+            text: 'Nitro',
+          },
+          {
+            text: 'Supabase',
+          },
+          {
+            text: 'PostgreSQL',
+          },
+        ]"
+        :minFontSize="15"
+        :startAngle="-45"
+        :maxCount="20"
+        :circleRadius="30"
+        :includeShadows="true"
+        :spinEnabled="false"
+        :includeInnerMessage="false"
+      />
     </div>
   </div>
 </template>
 
 <style scoped>
-.project-card::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  border-radius: inherit;
-  background: var(--cursor-hover-color, #f59e0b);
-  opacity: 0;
-  /*transition: opacity 500ms ease-in;*/
+.spin-entrance {
+  animation: spin-entrance 200ms ease-in-out;
 }
 
-.project-card:hover::before {
-  opacity: 1;
-}
-
-.project-card::selection,
-.project-card *::selection {
-  background-color: var(--ui-secondary);
-  color: var(--ui-primary);
-}
-
-.orbit-plane {
-  position: absolute;
-  inset: 0;
-  overflow: visible;
-
-  transform: rotate(var(--axis-angle));
-  transition: transform 100ms ease-out;
-}
-
-.orbit-item {
-  position: absolute;
-  inset: 0;
-  width: max-content;
-  height: max-content;
-
-  /* Almost circular, but with a visible orientation */
-  offset-path: ellipse(var(--orbit-radius) calc(var(--orbit-radius) * 0.9) at 50% 50%);
-
-  offset-anchor: center;
-  offset-rotate: 0deg;
-
-  animation: orbit 12s linear infinite;
-}
-
-.orbit-text {
-  display: block;
-  white-space: nowrap;
-
-  /* Keep labels horizontal when the orbit axis rotates */
-  transform: rotate(calc(-1 * var(--axis-angle)));
-  transition: transform 100ms ease-out;
-}
-
-@keyframes orbit {
+@keyframes spin-entrance {
   from {
-    offset-distance: 0%;
+    transform: rotate(0deg);
   }
-
   to {
-    offset-distance: 100%;
+    transform: rotate(360deg);
   }
 }
 
-.letter {
-  display: inline-block;
-  font-size: 2.3em;
-  transition:
-    color 300ms ease 500ms,
-    transform 300ms ease 1000ms;
-}
-
-.letter:hover {
-  animation: bounce 700ms ease;
-  transition-delay: 0ms;
-}
-
-.cursor {
-  animation: blink 700ms step-end infinite;
-}
-
-@keyframes blink {
-  50% {
-    opacity: 0;
-  }
-}
-
-@keyframes bounce {
-  0%,
-  100% {
-    transform: translateX(0);
-  }
-
-  35% {
-    transform: translateX(-10px);
-  }
-
-  55% {
-    transform: translateX(6px);
-  }
-
-  70% {
-    transform: translateX(-4px);
-  }
-
-  85% {
-    transform: translateX(0);
-  }
-}
-
-.fall-in {
-  animation: fall-in 2000ms ease-out both;
-}
-
-@keyframes fall-in {
-  0% {
-    opacity: 0;
-    transform: translateY(-100vh);
-  }
-
-  10% {
-    opacity: 1;
-    transform: translateY(12px);
-  }
-
-  30% {
-    opacity: 1;
-    transform: translateY(-10px);
-  }
-
-  70% {
-    opacity: 1;
-    transform: translateY(5px);
-  }
-
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.right-entrance {
-  animation: right-entrance 2000ms ease-out both;
-}
-
-@keyframes right-entrance {
-  0% {
-    opacity: 0;
-    transform: translateX(100vw);
-  }
-
-  50% {
-    opacity: 1;
-    transform: translateX(-10px);
-  }
-
-  70% {
-    opacity: 1;
-    transform: translateX(10px);
-  }
-
-  100% {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-.bottom-entrance {
-  animation: bottom-entrance 2000ms ease-out both;
-}
-
-@keyframes bottom-entrance {
-  0% {
-    opacity: 0;
-    transform: translateY(100vh);
-  }
-
-  50% {
-    opacity: 1;
-    transform: translateY(-10px);
-  }
-
-  70% {
-    opacity: 1;
-    transform: translateY(5px);
-  }
-
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.scroll-arrow {
-  position: absolute;
-  top: 2rem;
-  right: 0.2rem;
-  bottom: 2rem;
-  width: 2rem;
-  pointer-events: none;
-  z-index: 50;
-}
-
-.scroll-arrow__line {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 2px;
-  background: var(--color-red-500);
-  transform: translateX(-50%);
-  transform-origin: top;
-  animation: extend-line 3.5s ease-out forwards;
-}
-
-/* Arrowhead */
-.scroll-arrow__line::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  width: 0.5rem;
-  height: 0.5rem;
-  border-right: 1.5px solid var(--color-red-500);
-  border-bottom: 1.5px solid var(--color-red-500);
-  transform: translate(-50%, 0%) rotate(45deg);
-}
-
-@keyframes extend-line {
-  from {
-    transform: translateX(-50%) scaleY(0);
-  }
-
-  to {
-    transform: translateX(-50%) scaleY(1);
-  }
-}
-
-.projects-title {
-  position: absolute;
-  top: 100px;
-  left: 100px;
-
-  /* Visually starts at 10px, 10px */
-  opacity: 0;
-  transform: translate(-90px, -90px);
-
-  transition:
-    opacity 700ms ease-out,
-    transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.projects-title.is-visible {
-  opacity: 1;
-  transform: translate(0, 0);
+.aboutme-text {
+  animation: fade-in 2s ease-out both 3s;
 }
 </style>

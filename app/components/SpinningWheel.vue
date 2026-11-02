@@ -46,11 +46,27 @@ const props = defineProps({
     type: Number,
     default: 100,
   },
-  includeGreeting: {
+  includeInnerMessage: {
+    type: Boolean,
+    default: false,
+  },
+  innerMessage: {
+    type: Array,
+    required: false,
+    default: ['home.greeting_line1', 'home.greeting_line2'],
+  },
+  greetingSize: {
+    type: Number,
+    default: 12,
+  },
+  includeVinilImage: {
     type: Boolean,
     default: false,
   },
 })
+
+const startAngle = ref(props.startAngle)
+const runningAnimation = ref(true)
 
 const palette = [
   'var(--color-blue-500)',
@@ -59,7 +75,7 @@ const palette = [
   'var(--color-purple-500)',
 ]
 
-const texts = computed(() => [t('home.greeting_line1'), t('home.greeting_line2')])
+const texts = computed(() => [t(props.innerMessage[0]), t(props.innerMessage[1])])
 
 const charactersShown = ref(0)
 const letterColors = ref([])
@@ -148,17 +164,53 @@ const particles = computed(() => {
       isShadow: index > originals.length,
       details: index < originals.length ? particle.details : undefined,
       click: index < originals.length ? particle.click : undefined,
-      class: [particle.class, index > originals.length - 1 ? 'pointer-events-none' : ''],
+      // class: [particle.class, index > originals.length - 1 ? 'pointer-events-none' : ''],
+      class: [
+        particle.class ?? 'text-primary',
+        index > originals.length - 1 ? [] : ['pointer-events-auto', 'shrink-cursor'],
+      ],
       zIndex: props.maxCount - index,
     }
   })
 })
 
 const amount = ref(1)
-const count = computed(() => Math.ceil(amount.value))
+//const count = computed(() => Math.ceil(amount.value))
+const count = computed(() => Math.min(particles.value.length, Math.ceil(amount.value)))
 
 let frameId
 let startTime
+
+const animatedFontSize = ref(props.maxFontSize)
+const introAngle = ref(0)
+const introDone = ref(false)
+
+function animateIntro(time) {
+  startTime ??= time
+
+  const duration = 3000
+  const elapsed = Math.min(time - startTime, duration)
+
+  // Equivalent to Processing's frameCount, independent of screen refresh rate.
+  const frameCount = (elapsed * 60) / 1000
+
+  // Processing: amount = frameCount
+  amount.value = Math.min(particles.value.length, Math.max(1, frameCount))
+
+  // Processing: textSize(240 - frameCount * 2)
+  animatedFontSize.value = Math.max(props.minFontSize, props.maxFontSize - frameCount * 2)
+
+  // Faster than the example: two complete turns in three seconds.
+  introAngle.value = frameCount * 4
+
+  if (elapsed < duration) {
+    frameId = requestAnimationFrame(animateIntro)
+  } else {
+    animatedFontSize.value = props.minFontSize
+    introDone.value = true
+    runningAnimation.value = false
+  }
+}
 
 function addParticles(time) {
   startTime ??= time
@@ -174,7 +226,8 @@ function addParticles(time) {
 }
 
 onMounted(() => {
-  frameId = requestAnimationFrame(addParticles)
+  // frameId = requestAnimationFrame(addParticles)
+  frameId = requestAnimationFrame(animateIntro)
   // Allow the initial centred position to render first.
   positionFrame = requestAnimationFrame(() => {
     targetFrame = requestAnimationFrame(() => {
@@ -191,32 +244,51 @@ onBeforeUnmount(() => {
 
 const handleClick = (click) => {
   if (click) {
-    navigateTo(click)
+    window.open(click, '_blank')
   }
 }
 
 const hoveredIndex = ref(null)
 
 function particleOffset(index) {
-  const base = (index / amount.value) * 100 + (props.startAngle / 360) * 100
+  const base = (index / amount.value) * 100 + ((startAngle.value + introAngle.value) / 360) * 100
 
-  if (hoverMode === 'details' || hoveredIndex.value === null) return `${base}%`
+  //const base = (index / amount.value) * 100 + (startAngle.value / 360) * 100
+
+  if (hoveredIndex.value === null) return `${base}%`
 
   // Distancia respecto al seleccionado, teniendo en cuenta el cierre del círculo.
   const total = count.value
   const distance = ((index - hoveredIndex.value + total / 2 + total) % total) - total / 2
 
-  // Separar los dos vecinos de cada lado.
+  // Separar los dos vecinos de cada lado. Details needs a bit more room for the caption.
+  const strength = hoverMode.value === 'details' ? 2.2 : 1.5
   const shift =
     distance === 0 || Math.abs(distance) > 2
       ? 0
-      : Math.sign(distance) * (3 - Math.abs(distance)) * 1.5
+      : Math.sign(distance) * (3 - Math.abs(distance)) * strength
 
   return `${base + shift}%`
 }
+const particleDetailsVisible = ref([])
+
+const makeDetailsVisible = (index) => {
+  if (runningAnimation.value) return
+  particleDetailsVisible.value[index] = true
+  runningAnimation.value = true
+  startAngle.value = -(index * 360) / amount.value
+  setTimeout(() => {
+    runningAnimation.value = false
+  }, 600)
+}
+
+function hoverParticle(index) {
+  hoveredIndex.value = index
+  if (hoverMode.value === 'details') makeDetailsVisible(index)
+}
 </script>
 <template>
-  <div class="relative w-full h-full">
+  <div class="relative w-full h-full pointer-events-none">
     <div
       class="wheelPosition"
       :style="{
@@ -231,17 +303,28 @@ function particleOffset(index) {
           '--max-font-size': `${props.maxFontSize}px`,
           '--circle-radius': `${props.circleRadius}px`,
         }"
-        :class="{ 'spin-enabled': props.spinEnabled }"
+        :class="{
+          'intro-running': !introDone,
+          'spin-enabled': introDone && props.spinEnabled,
+        }"
       >
+        <!-- @animationend.self="runningAnimation = !$event.animationName.includes('shrink-text')"-->
         <!--    :class="[particles[(i - 1) % particles.length].class]"
               :style="{
             offsetDistance: `${((i - 1) / amount) * 100 + (props.startAngle / 360) * 100}%`,
           }"
         -->
 
+        <img
+          v-if="props.includeVinilImage"
+          src="/vinil.png"
+          @click="handleClick('https://www.youtube.com/watch?v=dQw4w9WgXcQ')"
+          class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-35 h-auto pointer-events-auto shrink-cursor spin"
+        />
+
         <svg
-          v-if="props.includeGreeting"
-          class="inner-text text-primary"
+          v-if="props.includeInnerMessage"
+          class="inner-text text-primary pointer-events-auto"
           viewBox="0 0 100 100"
         >
           <defs>
@@ -256,7 +339,7 @@ function particleOffset(index) {
           </defs>
 
           <text
-            font-size="12"
+            :font-size="`${props.greetingSize}px`"
             fill="currentColor"
           >
             <textPath
@@ -282,7 +365,7 @@ function particleOffset(index) {
           </text>
 
           <text
-            font-size="6"
+            :font-size="`${props.greetingSize * 0.5}px`"
             fill="currentColor"
           >
             <textPath
@@ -311,7 +394,7 @@ function particleOffset(index) {
         <div
           v-for="i in count"
           :key="i"
-          class="text-center text-primary font-semibold group flex flex-col gap-1 items-center justify-center"
+          class="text-center font-semibold flex flex-col gap-4 justify-center"
           :class="[
             particles[(i - 1) % particles.length].class,
             {
@@ -321,12 +404,9 @@ function particleOffset(index) {
           ]"
           :style="{
             offsetDistance: particleOffset(i - 1),
-            zIndex:
-              hoverMode === 'expand' && hoveredIndex === i - 1
-                ? 100
-                : particles[(i - 1) % particles.length].zIndex,
+            zIndex: hoveredIndex === i - 1 ? 100 : particles[(i - 1) % particles.length].zIndex,
           }"
-          @mouseenter="hoverMode === 'expand' && (hoveredIndex = i - 1)"
+          @mouseenter="hoverParticle(i - 1)"
           @mouseleave="hoveredIndex = null"
           @click="handleClick(particles[(i - 1) % particles.length].click)"
         >
@@ -340,10 +420,12 @@ function particleOffset(index) {
           </div>
 
           <div
-            v-if="hoverMode === 'details' && particles[(i - 1) % particles.length].details"
-            class="text-sm opacity-100 group-hover/particle:opacity-0 transition-opacity duration-300"
+            v-if="hoverMode === 'details' && particles[i - 1].details"
+            :class="{ 'is-visible': particleDetailsVisible[i - 1] }"
+            class="particle-details text-sm group-hover/particle:opacity-100 transition-opacity duration-300"
+            @mouseenter="hoverParticle(i - 1)"
           >
-            {{ particles[(i - 1) % particles.length].details }}
+            {{ particles[i - 1].details }}
           </div>
         </div>
       </div>
@@ -351,6 +433,40 @@ function particleOffset(index) {
   </div>
 </template>
 <style scoped>
+.inner-image {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+
+  width: max(0px, calc(var(--circle-radius) * 2 - 12px));
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.particle-details {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  padding-top: 0.75rem;
+
+  width: max-content;
+  line-height: 1.4;
+  pointer-events: none;
+  text-wrap: wrap;
+  text-align: left;
+  max-width: 20dvw;
+  opacity: 0;
+}
+
+.particle-details.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(0, 0);
+}
+
 .inner-text {
   position: absolute;
   left: 50%;
@@ -382,7 +498,7 @@ function particleOffset(index) {
     grid-area: 1 / 1;
     font-size: inherit;
     width: max-content;
-    line-height: 0;
+    line-height: 1;
     offset-path: circle(var(--circle-radius));
     offset-anchor: left center;
     offset-rotate: auto -90deg;
@@ -392,8 +508,8 @@ function particleOffset(index) {
     transform-origin: left center;
 
     transition:
-      transform 250ms ease,
-      offset-distance 250ms ease;
+      transform 500ms ease,
+      offset-distance 1.5s ease;
   }
 
   & > div.expand-hover:hover {
@@ -403,10 +519,8 @@ function particleOffset(index) {
   }
 }
 
-.container.spin-enabled {
-  animation:
-    shrink-text 3.3125s linear forwards,
-    spin 600s linear infinite;
+.container.intro-running > div {
+  transition: none;
 }
 
 @keyframes shrink-text {
@@ -424,9 +538,17 @@ function particleOffset(index) {
   }
 }
 
+.spin {
+  animation: spin 8s linear infinite;
+}
+
 @keyframes spin {
+  from {
+    rotate: 0deg;
+  }
+
   to {
-    transform: rotate(360deg);
+    rotate: 360deg;
   }
 }
 
