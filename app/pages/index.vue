@@ -16,17 +16,26 @@ watch(selectedLocale, (newLocale) => {
       :pParticles="[
         {
           text: t('nav.projects'),
-          click: localePath('/projects'),
+          click: {
+            dest: localePath('/projects'),
+            type: 'internal',
+          },
           class: 'text-primary',
         },
         {
           text: t('nav.about'),
-          click: localePath('/aboutme'),
+          click: {
+            dest: localePath('/aboutme'),
+            type: 'internal',
+          },
           class: 'text-secondary',
         },
         {
           text: t('nav.contact'),
-          click: localePath('/contact'),
+          click: {
+            dest: localePath('/contact'),
+            type: 'internal',
+          },
           class: 'text-warning',
         },
         /*  {
@@ -39,7 +48,7 @@ watch(selectedLocale, (newLocale) => {
       :minFontSize="85"
       :includeShadows="true"
       :spinEnabled="false"
-      :startAngle="-20"
+      :startAngle="-10"
       :circleRadius="200"
       :includeInnerMessage="true"
     />

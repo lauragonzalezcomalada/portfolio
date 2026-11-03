@@ -11,6 +11,16 @@ const texts = computed(() => {
     class: item.class ? rt(item.class) : '',
   }))
 })
+
+const writtenSentences = computed(() => {
+  const messages = tm('aboutme.writtenSentences')
+
+  if (!Array.isArray(messages)) return []
+
+  return messages.map((item) => ({
+    text: rt(item.text),
+  }))
+})
 const placedItems = ref([])
 const mouse = reactive({ x: 0, y: 0 })
 const cursorVisible = ref(false)
@@ -148,10 +158,9 @@ onBeforeUnmount(() => {
         ]"
         :minFontSize="15"
         :maxCount="70"
-        :circleRadius="30"
+        :circleRadius="35"
         :includeShadows="false"
         :spinEnabled="false"
-        :includeInnerMessage="false"
         :duration="1000"
       />
     </div>
@@ -159,7 +168,7 @@ onBeforeUnmount(() => {
       class="absolute inset-0 w-full h-full pointer-events-none flex flex-col text-3xl p-20 gap-8 text-primary aboutme-text"
     >
       <div>
-        Hi I'm Laura and I'm a
+        {{ writtenSentences[0].text }}
         <!-- <span
           v-if="placedItems.length > 0"
           class="spin-entrance inline-block text-blue-500"
@@ -167,17 +176,20 @@ onBeforeUnmount(() => {
           full-stack developer with an eye for design
         </span> -->
       </div>
-      <div>I've always been curious about life and how things work.</div>
+      <div>{{ writtenSentences[1].text }}</div>
       <div class="flex justify-end max-w-5xl">
         <!--<span
           v-if="placedItems.length > 1"
           class="spin-entrance inline-block text-green-500"
           >I studied Telecommunications Engineering </span
-        > -->at ETSETB-UPC Barcelona-Tech.
+              > -->{{ writtenSentences[2].text }}.
       </div>
-      <div>Did my thesis on audio feature extraction with LLMs at</div>
-      <div>After graduating I started building things for the</div>
-      <div class="text-xs absolute bottom-5 left-5">Press R to restart</div>
+      <div>{{ writtenSentences[3].text }}</div>
+      <div>{{ writtenSentences[4].text }}</div>
+      <div class="absolute bottom-5 left-5 flex flex-col">
+        <div class="text-sm font-bold">{{ t('aboutme.click_around') }}</div>
+        <div class="text-xs">{{ t('aboutme.restart') }}</div>
+      </div>
     </div>
 
     <!-- Texts already placed -->

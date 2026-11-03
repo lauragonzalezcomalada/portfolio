@@ -23,7 +23,6 @@ const { t, tm, rt } = useI18n()
         :includeShadows="false"
         :spinEnabled="true"
         :includeInnerMessage="true"
-        :innerMessage="['aboutme.countries_line1', 'aboutme.countries_line2']"
         :greetingSize="22"
       />
     </div>

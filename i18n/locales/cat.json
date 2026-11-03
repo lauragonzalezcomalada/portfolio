@@ -212,36 +212,7 @@
       "argentina",
       "paraguai"
     ],
-    "texts": [
-      {
-        "text": "full-stack developer with an eye for design",
-        "class": "bg-blue-500 text-white italic"
-      },
-      {
-        "text": "I studied Telecommunications Engineering",
-        "class": "bg-green-500 text-white"
-      },
-      {
-        "text": "Leibniz Universität of Hannover",
-        "class": "bg-yellow-500 text-white font-bold"
-      },
-      {
-        "text": "web",
-        "class": "bg-red-500 text-white underline italic"
-      },
-      {
-        "text": "I build useful, intuitive, slightly playful digital experiences from start to finish, while keeping room for new places and experiences",
-        "class": "bg-purple-500 text-white max-w-md"
-      },
-      {
-        "text": "I like to make use of the latest technologies. My current stack is:",
-        "class": "bg-orange-500 text-white max-w-md"
-      },
-      {
-        "text": "👩🏽‍💻",
-        "class": "text-4xl"
-      }
-    ],
+
     "references": [
       {
         "text": "Un llibre",
@@ -310,6 +281,56 @@
       {
         "text": "Nowadays",
         "details": "I build end-to-end experiences that are useful, intuitive, and a little playful, while keeping a movy lifestyle"
+      }
+    ],
+    "restart": "Prem R per a reiniciar",
+    "click_around": "Clica al voltant per a aprendre més sobre mi",
+    "writtenSentences": [
+      {
+        "text": "Hola, sóc la Laura i sóc una"
+      },
+      {
+        "text": "Sempre he tingut curiositat sobre com funcionen les coses."
+      },
+      {
+        "text": "a l'ETSETB, UPC – BarcelonaTech."
+      },
+      {
+        "text": "Vaig fer la meva tesi sobre extracció de característiques d'àudio amb LLMs a"
+      },
+      {
+        "text": "Després de graduarme, vaig començar a construir coses per a la"
+      }
+    ],
+    "spinningWeel": "SOBRE MI",
+    "texts": [
+      {
+        "text": "enginyera de software amb bon ull pel disseny",
+        "class": "bg-blue-500 text-white italic"
+      },
+      {
+        "text": "Vaig estudiar Enginyeria en Telecomunicacions",
+        "class": "bg-green-500 text-white"
+      },
+      {
+        "text": " la Leibniz Universität de Hannover",
+        "class": "bg-yellow-500 text-white font-bold"
+      },
+      {
+        "text": "web",
+        "class": "bg-red-500 text-white underline italic"
+      },
+      {
+        "text": "Creo experiències digitals útils, intuïtives i ligerament divertides des de l'inici fins al final, mentre que deixo espai per a nous llocs i experiències",
+        "class": "bg-purple-500 text-white max-w-md"
+      },
+      {
+        "text": "M'agrada fer ús de les últimes tecnologies. El meu stack actual és:",
+        "class": "bg-orange-500 text-white max-w-md"
+      },
+      {
+        "text": "👩🏽‍💻",
+        "class": "text-4xl"
       }
     ]
   }

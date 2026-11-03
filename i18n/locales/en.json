@@ -5,7 +5,7 @@
     "contact": "Contact"
   },
   "home": {
-    "greeting_line1": "Hi, I'm lauragonzalezcomalada",
+    "greeting_line1": "Hi, I'm Laura",
     "greeting_line2": "a software engineer with a good eye for design"
   },
   "projects": {
@@ -284,6 +284,26 @@
         "class": "text-4xl"
       }
     ],
-    "spinningWeel": "ABOUTME"
+    "spinningWeel": "ABOUTME",
+    "restart": "Press R to restart",
+    "click_around": "Click around to learn more about me",
+    "writtenSentences": [
+      {
+        "text": "Hi, I'm Laura and I'm a"
+      },
+      {
+        "text": "I've always been curious about how things work."
+      },
+
+      {
+        "text": "at ETSETB, UPC – BarcelonaTech."
+      },
+      {
+        "text": "I did my thesis on audio feature extraction with LLMs in"
+      },
+      {
+        "text": "After graduating, I started building things for the"
+      }
+    ]
   }
 }

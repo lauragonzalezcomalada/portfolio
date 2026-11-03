@@ -246,15 +246,15 @@
     ],
     "texts": [
       {
-        "text": "full-stack developer with an eye for design",
+        "text": "desarrolladora de software con buen ojo para el diseño",
         "class": "bg-blue-500 text-white italic"
       },
       {
-        "text": "I studied Telecommunications Engineering",
+        "text": "Estudié Ingeniería en Telecomunicaciones",
         "class": "bg-green-500 text-white"
       },
       {
-        "text": "Leibniz Universität of Hannover",
+        "text": "Leibniz Universität de Hannover",
         "class": "bg-yellow-500 text-white font-bold"
       },
       {
@@ -262,16 +262,33 @@
         "class": "bg-red-500 text-white underline italic"
       },
       {
-        "text": "I build useful, intuitive, slightly playful digital experiences from start to finish, while keeping room for new places and experiences",
+        "text": "Construyo experiencias digitales útiles, intuitivas y ligeramente divertidas desde el inicio hasta el final, mientras que dejo espacio para nuevos lugares y experiencias",
         "class": "bg-purple-500 text-white max-w-md"
       },
       {
-        "text": "I like to make use of the latest technologies. My current stack is:",
+        "text": "Me gusta hacer uso de las últimas tecnologías. Mi stack actual es:",
         "class": "bg-orange-500 text-white max-w-md"
       },
       {
         "text": "👩🏽‍💻",
         "class": "text-4xl"
+      }
+    ],
+    "writtenSentences": [
+      {
+        "text": "Hola soy Laura y soy una"
+      },
+      {
+        "text": "Siempre fui curiosa sobre cómo funcionan las cosas."
+      },
+      {
+        "text": "en ETSETB, UPC – BarcelonaTech"
+      },
+      {
+        "text": "Hice mi tesis sobre extracción de características de audio con LLMs en"
+      },
+      {
+        "text": "Después de graduarme, empecé a construir cosas para la"
       }
     ],
     "path": [
@@ -311,6 +328,9 @@
         "text": "Nowadays",
         "details": "I build end-to-end experiences that are useful, intuitive, and a little playful, while keeping a movy lifestyle"
       }
-    ]
+    ],
+    "restart": "Presiona R para reiniciar",
+    "click_around": "Clica para saber más sobre mi",
+    "spinningWeel": "SOBRE MI"
   }
 }

@@ -115,7 +115,7 @@ onMounted(() => {
       if (charactersShown.value >= total) {
         clearInterval(typingInterval)
       }
-    }, 100)
+    }, 50)
   }, 1000)
 })
 
@@ -244,7 +244,11 @@ onBeforeUnmount(() => {
 
 const handleClick = (click) => {
   if (click) {
-    window.open(click, '_blank')
+    if (click.type === 'internal') {
+      navigateTo(click.dest)
+    } else {
+      window.open(click.dest, '_blank')
+    }
   }
 }
 
