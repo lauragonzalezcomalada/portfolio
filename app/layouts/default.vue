@@ -67,7 +67,10 @@ onBeforeUnmount(() => {
         >
           {{ t('nav.about') }}
         </h1>
-        <h1 class="right-entrance font-semibold text-black/20 hover:text-red-500">
+        <h1
+          class="right-entrance font-semibold text-black/20 hover:text-red-500"
+          @click="navigateTo(localePath('/contact'))"
+        >
           {{ t('nav.contact') }}
         </h1>
       </div>

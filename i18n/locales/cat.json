@@ -333,5 +333,8 @@
         "class": "text-4xl"
       }
     ]
+  },
+  "contact": {
+    "spinningWeel": "CONTACTA'M"
   }
 }

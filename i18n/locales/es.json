@@ -332,5 +332,8 @@
     "restart": "Presiona R para reiniciar",
     "click_around": "Clica para saber más sobre mi",
     "spinningWeel": "SOBRE MI"
+  },
+  "contact": {
+    "spinningWeel": "CONTACTAME"
   }
 }
